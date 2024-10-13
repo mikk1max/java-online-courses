@@ -1,4 +1,5 @@
 package com.example.onlinecourses.controller;
+
 import com.example.onlinecourses.model.Student;
 import com.example.onlinecourses.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;

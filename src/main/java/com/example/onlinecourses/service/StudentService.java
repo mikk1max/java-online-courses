@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentService implements FileWriterService<Student>, FileDownloadable{
+public class StudentService implements FileWriterService<Student>, FileDownloadable {
 
     private static final String STUDENT_FILE_PATH = "./src/main/resources/data/students.txt";
     private static final String STUDENT_FILE_XML_PATH = "./src/main/resources/data/students.xml";
