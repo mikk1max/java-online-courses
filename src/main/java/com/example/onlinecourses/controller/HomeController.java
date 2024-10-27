@@ -140,22 +140,37 @@ public class HomeController {
         StudentClass cclass = new StudentClass(students, courses.get(0), teacher);
 
         Assignment assignment = Assignment.builder()
-                    .id(1)
-                    .title("Zadanie 1")
-                    .description("Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentow")
-                    .assignedBy(teacher)
-                    .isCompleted(false)
-                    .build();
+                .id(1)
+                .title("Zadanie 1")
+                .description("Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentow")
+                .assignedBy(teacher)
+                .isCompleted(false)
+                .build();
 
 
         Teacher teacherkopy = new Teacher(teacher);
-            teacher.setName("Jan Nowak");
-            teacher.setAge(41);
-            Teacher teachersave = new Teacher(teacher);
-            teacherkopy.restoreState(teacher);
+        teacher.setName("Jan Nowak");
+        teacher.setAge(41);
+        Teacher teachersave = new Teacher(teacher);
+        teacherkopy.restoreState(teacher);
 
+        // *Lab 3 - testowanie klas Certificate, Feedback, Schedule
+        Certificate certificate = new Certificate(1, "java", "28/10/2024", 4, "MasterDegree");
 
+        Certificate certificateCopy = new Certificate(certificate);//tworzymy kopie
+        certificate.setCourseTitle("Advanced java");//zmieniamy startowa instancje certyfikatu
+        certificate.setGrade(5);
+        Certificate certificateSave = new Certificate(certificate);//nowa instancja ze zmiana danych
+        certificateCopy.resetStateCertificate(certificate);
 
+        Feedback feedback = Feedback.builder()
+                .CourseTitle("Advanced java")
+                .score(3)
+                .comment("Bardzo dobry kurs")
+                .date("26/10/2024")
+                .build();
+
+        Schedule schedule = new Schedule("Advanced java", "15/04/2024", "15/10/2024", "Lecture hall 201");
 
         // Add all attributes to the model
         try {
@@ -191,6 +206,10 @@ public class HomeController {
             model.addAttribute("cclass",cclass);
             model.addAttribute("assignment",assignment);
 
+            model.addAttribute("certificate", certificate);
+            model.addAttribute("certificateSave", certificateSave);
+            model.addAttribute("feedback", feedback);
+            model.addAttribute("schedule", schedule);
 
         } catch (Exception e) {
             e.printStackTrace();
