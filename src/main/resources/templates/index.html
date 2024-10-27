@@ -140,6 +140,38 @@
         <span th:text="${student.age}">Student Age</span> years old
     </li>
 </ul>
+<h2>Student Class</h2>
+<ul>
+    <li>
+        <strong>Course:</strong> <span th:text="${cclass.course.title}"></span> - <span th:text="${cclass.course.description}"></span>
+    </li>
+    <li>
+        <strong>Teacher:</strong> <span th:text="${cclass.teacher.name}"></span> (Age: <span th:text="${cclass.teacher.age}"></span>, Experience: <span th:text="${cclass.teacher.experience}"></span>)
+    </li>
+    <li>
+        <strong>Students:</strong>
+        <ul>
+            <li th:each="student : ${cclass.students}">
+                <span th:text="${student.name}"></span> (Age: <span th:text="${student.age}"></span>)
+            </li>
+        </ul>
+    </li>
+</ul>
+<h2>Assignment Details</h2>
+<ul>
+    <li>
+        <strong>Title:</strong> <span th:text="${assignment.title}"></span>
+    </li>
+    <li>
+        <strong>Description:</strong> <span th:text="${assignment.description}"></span>
+    </li>
+    <li>
+        <strong>Completed:</strong> <span th:text="${assignment.isCompleted ? 'Yes' : 'No'}"></span>
+    </li>
+</ul>
+<h2>Teacher</h2>
+    <li>Zmodyfikowany nauczyciel:  <strong>Teacher:</strong> <span th:text="${teachersave.name}"></span> (Age: <span th:text="${teachersave.age}"></span>, Experience: <span th:text="${teachersave.experience}"></span>)</li>
+    <li>Oryginalny nauczyciel po przywróceniu:<strong>Teacher:</strong> <span th:text="${teacher.name}"></span> (Age: <span th:text="${teacher.age}"></span>, Experience: <span th:text="${teacher.experience}"></span>)</li>
 
 
 
