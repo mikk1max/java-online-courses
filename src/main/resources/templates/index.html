@@ -90,6 +90,39 @@
             (<span th:text="${course.duration}">Course Duration</span> hours)
         </li>
     </ul>
+    <h2>Certificate</h2>
+    <li>Zmodyfikowany certyfikat:  <strong>Certificate:</strong> Id:<span th:text="${certificateSave.certificateId}"></span>, Nazwa kursu: <span th:text="${certificateSave.courseTitle}"></span>, Data wydania: <span th:text="${certificateSave.issueDate}"></span>, Ocena: <span th:text="${certificateSave.grade}"></span>, Typ certyfikatu: <span th:text="${certificateSave.certificateType}"></span></li>
+    <li>Oryginalny certyfikat po przywróceniu:  <strong>Certificate:</strong> Id:<span th:text="${certificate.certificateId}"></span>, Nazwa kursu: <span th:text="${certificate.courseTitle}"></span>, Data wydania: <span th:text="${certificate.issueDate}"></span>, Ocena: <span th:text="${certificate.grade}"></span>, Typ certyfikatu: <span th:text="${certificate.certificateType}"></span></li>
+    <h2>Feedback</h2>
+    <ul>
+        <li>
+            <strong>Course Title:</strong> <span th:text="${feedback.courseTitle}"></span>
+        </li>
+        <li>
+            <strong>Course Score:</strong> <span th:text="${feedback.score}"></span>
+        </li>
+        <li>
+            <strong>Comment:</strong> <span th:text="${feedback.comment}"></span>
+        </li>
+        <li>
+            <strong>Date:</strong> <span th:text="${feedback.date}"></span>
+        </li>
+    </ul>
+    <h2>Schedule</h2>
+    <ul>
+        <li>
+            <strong>Course Title:</strong> <span th:text="${schedule.courseTitle}"></span>
+        </li>
+        <li>
+            <strong>StartDate:</strong> <span th:text="${schedule.startDate}"></span>
+        </li>
+        <li>
+            <strong>EndDate:</strong> <span th:text="${schedule.endDate}"></span>
+        </li>
+        <li>
+            <strong>Location:</strong> <span th:text="${schedule.location}"></span>
+        </li>
+    </ul>
 </div>
 
 <div>
