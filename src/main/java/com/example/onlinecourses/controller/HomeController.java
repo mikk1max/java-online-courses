@@ -1,8 +1,6 @@
 package com.example.onlinecourses.controller;
 
-import com.example.onlinecourses.model.Course;
-import com.example.onlinecourses.model.Student;
-import com.example.onlinecourses.model.Enrollment;
+import com.example.onlinecourses.model.*;
 
 import com.example.onlinecourses.service.CourseService;
 import com.example.onlinecourses.service.InitializeService;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -135,10 +134,32 @@ public class HomeController {
         // *LAB 2
         enrollmentService.saveEnrollmentsToXML(enrollments); // Save enrollments to XML
         List<Enrollment> enrollmentsFromXML = enrollmentService.readEnrollmentsFromXML(); // Read enrollments from XML
+        // *LAB 3
+
+        Teacher teacher = new Teacher("Jan Kowalski", 40, 15, 50.0, 101);
+        StudentClass cclass = new StudentClass(students, courses.get(0), teacher);
+
+        Assignment assignment = Assignment.builder()
+                    .id(1)
+                    .title("Zadanie 1")
+                    .description("Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentow")
+                    .assignedBy(teacher)
+                    .isCompleted(false)
+                    .build();
+
+
+        Teacher teacherkopy = new Teacher(teacher);
+            teacher.setName("Jan Nowak");
+            teacher.setAge(41);
+            Teacher teachersave = new Teacher(teacher);
+            teacherkopy.restoreState(teacher);
+
+
 
 
         // Add all attributes to the model
         try {
+
             model.addAttribute("courses",courses);
             model.addAttribute("streamCoursesWithJava",streamCoursesWithJava);
             model.addAttribute("duplicateDurationsOfCourses",duplicateDurationsOfCourses);
@@ -164,6 +185,12 @@ public class HomeController {
             model.addAttribute("studentEnrollmentCounts",studentEnrollmentCounts);
             model.addAttribute("enrollmentsFromFile",enrollmentsFromFile);
             model.addAttribute("enrollmentsFromXML",enrollmentsFromXML);
+
+            model.addAttribute("teacher", teacher);
+            model.addAttribute("teachersave", teachersave);
+            model.addAttribute("cclass",cclass);
+            model.addAttribute("assignment",assignment);
+
 
         } catch (Exception e) {
             e.printStackTrace();

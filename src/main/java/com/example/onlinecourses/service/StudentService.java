@@ -124,7 +124,7 @@ public class StudentService {
         return studentData;
     }
 
-    // Read students from XML file into a list of objects, with exception handling
+    // Read students from XML file into a list of objects, with exception
     public List<Student> readStudentsFromXMLToObjects() throws Exception {
         List<Student> students = new ArrayList<>();
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
