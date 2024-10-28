@@ -71,9 +71,6 @@ public class HomeController {
         List<Student> studentObjects = studentService.readStudentsFromXMLToObjects(); // Read from XML to objects
 
 
-
-
-
         //!Courses part
         // Filter courses with Java in the title
         Stream<Course> streamCoursesWithJava = courses.stream()
@@ -110,9 +107,6 @@ public class HomeController {
         List<Course> loadedCourses = courseService.CoursesFromXMLtoObjects(); // Read from XML to objects
 
 
-
-
-
         // !Enrollments part
         // Filter enrollments with student name containing 'Shepeta'
         Stream<Enrollment> streamEnrollmentsContainsSth = enrollments.stream()
@@ -134,27 +128,30 @@ public class HomeController {
         // *LAB 2
         enrollmentService.saveEnrollmentsToXML(enrollments); // Save enrollments to XML
         List<Enrollment> enrollmentsFromXML = enrollmentService.readEnrollmentsFromXML(); // Read enrollments from XML
-        // *LAB 3
 
-        Teacher teacher = new Teacher("Jan Kowalski", 40, 15, 50.0, 101);
-        StudentClass cclass = new StudentClass(students, courses.get(0), teacher);
+
+        // !LAB 3 all classes
+        // * Teacher, StudentClass, Assignment
+        Teacher originalTeacher = new Teacher("Jan Kowalski", 40, 15, 50.0, 101);
+        StudentClass studentClass = new StudentClass(students, courses.get(0), originalTeacher);
 
         Assignment assignment = Assignment.builder()
                 .id(1)
                 .title("Zadanie 1")
                 .description("Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentow")
-                .assignedBy(teacher)
+                .assignedBy(originalTeacher)
                 .isCompleted(false)
                 .build();
 
 
-        Teacher teacherkopy = new Teacher(teacher);
-        teacher.setName("Jan Nowak");
-        teacher.setAge(41);
-        Teacher teachersave = new Teacher(teacher);
-        teacherkopy.restoreState(teacher);
+        Teacher teacherCopy = new Teacher(originalTeacher);
+        originalTeacher.setName("Jan Nowak");
+        originalTeacher.setAge(41);
+        Teacher teacherSaved = new Teacher(originalTeacher);
+        teacherCopy.restoreState(originalTeacher);
 
-        // *Lab 3 - testowanie klas Certificate, Feedback, Schedule
+
+        // * Certificate, Feedback, Schedule
         Certificate certificate = new Certificate(1, "java", "28/10/2024", 4, "MasterDegree");
 
         Certificate certificateCopy = new Certificate(certificate);//tworzymy kopie
@@ -165,58 +162,89 @@ public class HomeController {
 
         Feedback feedback = Feedback.builder()
                 .CourseTitle("Advanced java")
-                .score(3)
+                .score(4)
                 .comment("Bardzo dobry kurs")
                 .date("26/10/2024")
                 .build();
 
         Schedule schedule = new Schedule("Advanced java", "15/04/2024", "15/10/2024", "Lecture hall 201");
 
-        // Add all attributes to the model
+
+        // * Exam, ExamSession, ExamDTO
+        Exam exam = new Exam("Java", LocalDate.of(2024, 12, 16));
+        exam.setMaxScore(100);
+
+        ExamSession examSession = ExamSession.builder()
+                .id(1L)
+                .startDate(LocalDate.of(2024, 12, 10))
+                .endDate(LocalDate.of(2024, 12, 30))
+                .description("Winter exam session")
+                .build();
+
+
+        ExamDTO examDTO = new ExamDTO(exam);
+
+        examDTO.update("Git", LocalDate.of(2024, 12, 15), 85);
+
+        // Create a new variable to hold the updated values
+        ExamDTO updatedExamDTO = new ExamDTO(examDTO); // Create a copy of the updated ExamDTO
+        model.addAttribute("updatedExamDTO", updatedExamDTO);
+
+        // Rollback to the original values
+        examDTO.rollback();
+        model.addAttribute("rolledBackExamDTO", examDTO);
+
+
         try {
-
-            model.addAttribute("courses",courses);
-            model.addAttribute("streamCoursesWithJava",streamCoursesWithJava);
-            model.addAttribute("duplicateDurationsOfCourses",duplicateDurationsOfCourses);
-            model.addAttribute("amountOfDuplicateCourses",amountOfDuplicateCourses);
-            model.addAttribute("streamCourseDurationsInMinutes",streamCourseDurationsInMinutes);
-            model.addAttribute("coursesFromFile",coursesFromFile);
-            model.addAttribute("coursesFromFileJavaIO",coursesFromFileJavaIO);
+            // !LAB 1-2
+            model.addAttribute("courses", courses);
+            model.addAttribute("streamCoursesWithJava", streamCoursesWithJava);
+            model.addAttribute("duplicateDurationsOfCourses", duplicateDurationsOfCourses);
+            model.addAttribute("amountOfDuplicateCourses", amountOfDuplicateCourses);
+            model.addAttribute("streamCourseDurationsInMinutes", streamCourseDurationsInMinutes);
+            model.addAttribute("coursesFromFile", coursesFromFile);
+            model.addAttribute("coursesFromFileJavaIO", coursesFromFileJavaIO);
             model.addAttribute("StringCoursesFromXML", readedCourses);
-            model.addAttribute("ObjectsCoursesFromXML",loadedCourses);
+            model.addAttribute("ObjectsCoursesFromXML", loadedCourses);
 
 
-            model.addAttribute("students",students);
-            model.addAttribute("filteredStudents",streamStudents);
-            model.addAttribute("duplicateNames",duplicateNames);
-            model.addAttribute("amountDuplicateNames",amountDuplicateNames);
-            model.addAttribute("studentsFromFile",studentsFromFile);
+            model.addAttribute("students", students);
+            model.addAttribute("filteredStudents", streamStudents);
+            model.addAttribute("duplicateNames", duplicateNames);
+            model.addAttribute("amountDuplicateNames", amountDuplicateNames);
+            model.addAttribute("studentsFromFile", studentsFromFile);
             model.addAttribute("studentStrings", studentStrings);
             model.addAttribute("studentObjects", studentObjects);
 
 
             model.addAttribute("enrollments", enrollments);
-            model.addAttribute("streamEnrollmentsContainsSth",streamEnrollmentsContainsSth);
-            model.addAttribute("studentEnrollmentCounts",studentEnrollmentCounts);
-            model.addAttribute("enrollmentsFromFile",enrollmentsFromFile);
-            model.addAttribute("enrollmentsFromXML",enrollmentsFromXML);
+            model.addAttribute("streamEnrollmentsContainsSth", streamEnrollmentsContainsSth);
+            model.addAttribute("studentEnrollmentCounts", studentEnrollmentCounts);
+            model.addAttribute("enrollmentsFromFile", enrollmentsFromFile);
+            model.addAttribute("enrollmentsFromXML", enrollmentsFromXML);
 
-            model.addAttribute("teacher", teacher);
-            model.addAttribute("teachersave", teachersave);
-            model.addAttribute("cclass",cclass);
-            model.addAttribute("assignment",assignment);
+            // !LAB 3
+            model.addAttribute("teacher", originalTeacher);
+            model.addAttribute("teacherSaved", teacherSaved);
+            model.addAttribute("studentClass", studentClass);
+            model.addAttribute("assignment", assignment);
 
             model.addAttribute("certificate", certificate);
             model.addAttribute("certificateSave", certificateSave);
             model.addAttribute("feedback", feedback);
             model.addAttribute("schedule", schedule);
 
+            model.addAttribute("exam", exam);
+            model.addAttribute("examSession", examSession);
+            // model attributes for ExamDTO are added above
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return "index";
-}
+    }
 
     public static Student findStudentByName(String name) {
         return students.stream()
