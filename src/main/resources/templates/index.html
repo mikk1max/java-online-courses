@@ -3,24 +3,77 @@
 <head>
     <title>Online Courses</title>
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         .container {
             display: flex;
             justify-content: space-between;
 
         }
+
         .container div {
             margin: 0 20px;
             padding: 10px;
             border: dotted black;
             width: calc((100% - 80px) / 3);
         }
+
         h1 {
             text-align: center;
         }
+
         ul {
             list-style: none;
             padding: 0;
         }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Heading styles */
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        /* Strong text styles */
+        strong {
+            color: #4CAF50;
+        }
+
     </style>
 </head>
 <body>
@@ -28,229 +81,397 @@
 <h1>Welcome to Online Courses Info</h1>
 
 <div class="container">
-<div>
-    <h2>Courses</h2>
-    <ul>
-        <li th:each="course : ${courses}">
-            <span th:text="${course.title}">Course Title</span> -
-            <span th:text="${course.description}">Course Description</span>
-            (<span th:text="${course.duration}">Course Duration</span> hours)
-        </li>
-    </ul>
-    <!-- Courses with word "Java" in it -->
-    <h2>Filtered courses with word "Java" in it</h2>
-    <ul>
-        <li th:each="course : ${streamCoursesWithJava}">
-            <span th:text="${course.title}">Course Title</span> -
-            <span th:text="${course.description}">Course Description</span>
-            (<span th:text="${course.duration}">Course Duration</span> hours)
-        </li>
-    </ul>
-    <h2>Duplicated Durations of Courses</h2>
-    <ul>
-        <li th:each="entry : ${duplicateDurationsOfCourses}">
-            <span th:text="${entry.key}">Course</span> hours duration -
-            <span th:text="${entry.value}">Count</span> time(s)
-        </li>
-        <li>
-            <span th:text="${amountOfDuplicateCourses}"> </span> - amount of duplicated durations of courses
-        </li>
-    </ul>
-    <h2>Courses with Durations in Minutes</h2>
-    <ul>
-        <li th:each="course : ${streamCourseDurationsInMinutes}">
-            <span th:text="${course}">Course Title - Duration in Minutes</span>
-        </li>
-    </ul>
-    <h2>Courses from File (sort + filter(>=8,1...10))</h2>
-    <ul>
-        <li th:each="course : ${coursesFromFile}">
-            <span th:text="${course.title}">Course Title</span>,
-            <span th:text="${course.duration}">Course Duration</span> hour(s)
-        </li>
-    </ul>
-    <h2>Courses from File JavaIO</h2>
-    <ul>
-        <li th:each="course : ${coursesFromFileJavaIO}">
-            <span th:text="${course.title}">Course Title</span>,
-            <span th:text="${course.duration}">Course Duration</span> hour(s)
-        </li>
-    </ul>
-    <h2>Courses from XML - String</h2>
-    <ul>
-        <li th:each="course : ${StringCoursesFromXML}">
-            <span th:text="${course}"></span>
-        </li>
-    </ul>
-    <h2>Courses from XML - Objects</h2>
-    <ul>
-        <li th:each="course : ${ObjectsCoursesFromXML}">
-            <span th:text="${course.title}">Course Title</span> -
-            <span th:text="${course.description}">Course Description</span>
-            (<span th:text="${course.duration}">Course Duration</span> hours)
-        </li>
-    </ul>
-    <h2>Certificate</h2>
-    <li>Zmodyfikowany certyfikat:  <strong>Certificate:</strong> Id:<span th:text="${certificateSave.certificateId}"></span>, Nazwa kursu: <span th:text="${certificateSave.courseTitle}"></span>, Data wydania: <span th:text="${certificateSave.issueDate}"></span>, Ocena: <span th:text="${certificateSave.grade}"></span>, Typ certyfikatu: <span th:text="${certificateSave.certificateType}"></span></li>
-    <li>Oryginalny certyfikat po przywróceniu:  <strong>Certificate:</strong> Id:<span th:text="${certificate.certificateId}"></span>, Nazwa kursu: <span th:text="${certificate.courseTitle}"></span>, Data wydania: <span th:text="${certificate.issueDate}"></span>, Ocena: <span th:text="${certificate.grade}"></span>, Typ certyfikatu: <span th:text="${certificate.certificateType}"></span></li>
-    <h2>Feedback</h2>
-    <ul>
-        <li>
-            <strong>Course Title:</strong> <span th:text="${feedback.courseTitle}"></span>
-        </li>
-        <li>
-            <strong>Course Score:</strong> <span th:text="${feedback.score}"></span>
-        </li>
-        <li>
-            <strong>Comment:</strong> <span th:text="${feedback.comment}"></span>
-        </li>
-        <li>
-            <strong>Date:</strong> <span th:text="${feedback.date}"></span>
-        </li>
-    </ul>
-    <h2>Schedule</h2>
-    <ul>
-        <li>
-            <strong>Course Title:</strong> <span th:text="${schedule.courseTitle}"></span>
-        </li>
-        <li>
-            <strong>StartDate:</strong> <span th:text="${schedule.startDate}"></span>
-        </li>
-        <li>
-            <strong>EndDate:</strong> <span th:text="${schedule.endDate}"></span>
-        </li>
-        <li>
-            <strong>Location:</strong> <span th:text="${schedule.location}"></span>
-        </li>
-    </ul>
-</div>
-
-<div>
-    <h2>Students</h2>
-    <ul>
-        <li th:each="student : ${students}">
-            <span th:text="${student.name}">Student Name</span>,
-            <span th:text="${student.age}">Student Age</span> years old
-        </li>
-    </ul>
-
-    <!-- Students containing "a" -->
-    <h2>Filtered Students with letter "a"</h2>
-    <ul>
-        <li th:each="student : ${filteredStudents}">
-            <span th:text="${student.name}">Student Name</span>,
-            <span th:text="${student.age}">Student Age</span> years old
-        </li>
-    </ul>
-
-    <h2>Duplicate Student Names</h2>
-    <ul>
-        <li th:each="entry : ${duplicateNames}">
-            <span th:text="${entry.key}">Student Name</span> -
-            <span th:text="${entry.value}">Count</span> time(s)
-        </li>
-        <li>
-            <span th:text="${amountDuplicateNames}"> </span> - amount of duplicated names
-        </li>
-    </ul>
-    <h2>Students from File (sort + filter)</h2>
-    <ul>
-        <li th:each="student : ${studentsFromFile}">
-            <span th:text="${student.name}">Student Name</span>,
-            <span th:text="${student.age}">Student Age</span> years old
-        </li>
-    </ul>
-<h2>Students from XML-String</h2>
-<ul>
-    <li th:each="student : ${studentStrings}">
-        <span th:text="${student}"></span>
-    </li>
-</ul>
-    <h2>Student from XML-Object</h2>
-<ul>
-    <li th:each="student : ${studentObjects}">
-        <span th:text="${student.name}">Student Name</span>,
-        <span th:text="${student.age}">Student Age</span> years old
-    </li>
-</ul>
-<h2>Student Class</h2>
-<ul>
-    <li>
-        <strong>Course:</strong> <span th:text="${cclass.course.title}"></span> - <span th:text="${cclass.course.description}"></span>
-    </li>
-    <li>
-        <strong>Teacher:</strong> <span th:text="${cclass.teacher.name}"></span> (Age: <span th:text="${cclass.teacher.age}"></span>, Experience: <span th:text="${cclass.teacher.experience}"></span>)
-    </li>
-    <li>
-        <strong>Students:</strong>
+    <div>
+        <h2>Leanid Shaveika</h2>
         <ul>
-            <li th:each="student : ${cclass.students}">
-                <span th:text="${student.name}"></span> (Age: <span th:text="${student.age}"></span>)
+            <li th:each="course : ${courses}">
+                <span th:text="${course.title}">Course Title</span> -
+                <span th:text="${course.description}">Course Description</span>
+                (<span th:text="${course.duration}">Course Duration</span> hours)
             </li>
         </ul>
-    </li>
-</ul>
-<h2>Assignment Details</h2>
-<ul>
-    <li>
-        <strong>Title:</strong> <span th:text="${assignment.title}"></span>
-    </li>
-    <li>
-        <strong>Description:</strong> <span th:text="${assignment.description}"></span>
-    </li>
-    <li>
-        <strong>Completed:</strong> <span th:text="${assignment.isCompleted ? 'Yes' : 'No'}"></span>
-    </li>
-</ul>
-<h2>Teacher</h2>
-    <li>Zmodyfikowany nauczyciel:  <strong>Teacher:</strong> <span th:text="${teachersave.name}"></span> (Age: <span th:text="${teachersave.age}"></span>, Experience: <span th:text="${teachersave.experience}"></span>)</li>
-    <li>Oryginalny nauczyciel po przywróceniu:<strong>Teacher:</strong> <span th:text="${teacher.name}"></span> (Age: <span th:text="${teacher.age}"></span>, Experience: <span th:text="${teacher.experience}"></span>)</li>
+        <!-- Courses with word "Java" in it -->
+        <h2>Filtered courses with word "Java" in it</h2>
+        <ul>
+            <li th:each="course : ${streamCoursesWithJava}">
+                <span th:text="${course.title}">Course Title</span> -
+                <span th:text="${course.description}">Course Description</span>
+                (<span th:text="${course.duration}">Course Duration</span> hours)
+            </li>
+        </ul>
+        <h2>Duplicated Durations of Courses</h2>
+        <ul>
+            <li th:each="entry : ${duplicateDurationsOfCourses}">
+                <span th:text="${entry.key}">Course</span> hours duration -
+                <span th:text="${entry.value}">Count</span> time(s)
+            </li>
+            <li>
+                <span th:text="${amountOfDuplicateCourses}"> </span> - amount of duplicated durations of courses
+            </li>
+        </ul>
+        <h2>Courses with Durations in Minutes</h2>
+        <ul>
+            <li th:each="course : ${streamCourseDurationsInMinutes}">
+                <span th:text="${course}">Course Title - Duration in Minutes</span>
+            </li>
+        </ul>
+        <h2>Courses from File (sort + filter(>=8,1...10))</h2>
+        <ul>
+            <li th:each="course : ${coursesFromFile}">
+                <span th:text="${course.title}">Course Title</span>,
+                <span th:text="${course.duration}">Course Duration</span> hour(s)
+            </li>
+        </ul>
+        <h2>Courses from File JavaIO</h2>
+        <ul>
+            <li th:each="course : ${coursesFromFileJavaIO}">
+                <span th:text="${course.title}">Course Title</span>,
+                <span th:text="${course.duration}">Course Duration</span> hour(s)
+            </li>
+        </ul>
+        <h2>Courses from XML - String</h2>
+        <ul>
+            <li th:each="course : ${StringCoursesFromXML}">
+                <span th:text="${course}"></span>
+            </li>
+        </ul>
+        <h2>Courses from XML - Objects</h2>
+        <ul>
+            <li th:each="course : ${ObjectsCoursesFromXML}">
+                <span th:text="${course.title}">Course Title</span> -
+                <span th:text="${course.description}">Course Description</span>
+                (<span th:text="${course.duration}">Course Duration</span> hours)
+            </li>
+        </ul>
+        <h2>Certificate</h2>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Mark</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Modified:</strong></td>
+                <td><span th:text="${certificateSave.courseTitle}"></span></td>
+                <td><span th:text="${certificateSave.issueDate}"></span></td>
+                <td><span th:text="${certificateSave.grade}"></span></td>
+                <td><span th:text="${certificateSave.certificateType}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Rolled back:</strong></td>
+                <td><span th:text="${certificate.courseTitle}"></span></td>
+                <td><span th:text="${certificate.issueDate}"></span></td>
+                <td><span th:text="${certificate.grade}"></span></td>
+                <td><span th:text="${certificate.certificateType}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Feedback</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Score</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span th:text="${feedback.courseTitle}"></span></td>
+                <td><span th:text="${feedback.score}"></span> / 5</td>
+                <td><span th:text="${feedback.comment}"></span></td>
+                <td><span th:text="${feedback.date}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Schedule</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span th:text="${schedule.courseTitle}"></span></td>
+                <td><span th:text="${schedule.startDate}"></span></td>
+                <td><span th:text="${schedule.endDate}"></span></td>
+                <td><span th:text="${schedule.location}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
 
 
+    <div>
+        <h2>Milena Runets</h2>
+        <ul>
+            <li th:each="student : ${students}">
+                <span th:text="${student.name}">Student Name</span>,
+                <span th:text="${student.age}">Student Age</span> years old
+            </li>
+        </ul>
 
-</div>
+        <!-- Students containing "a" -->
+        <h2>Filtered Students with letter "a"</h2>
+        <ul>
+            <li th:each="student : ${filteredStudents}">
+                <span th:text="${student.name}">Student Name</span>,
+                <span th:text="${student.age}">Student Age</span> years old
+            </li>
+        </ul>
 
-<div>
-    <h2>Enrollments</h2>
-    <ul>
-        <li th:each="enrollment : ${enrollments}">
-            <span th:text="${enrollment.student.name}">Student Name</span> enrolled in
-            <span th:text="${enrollment.course.title}">Course Title</span>
-        </li>
-    </ul>
-    <h2>Filtered by Student-name</h2>
-    <ul>
-        <li th:each="enrollment : ${streamEnrollmentsContainsSth}">
-            <span th:text="${enrollment.student.name}">Student Name</span>,
-            <span th:text="${enrollment.course.title}">Student course</span>,
+        <h2>Duplicate Student Names</h2>
+        <ul>
+            <li th:each="entry : ${duplicateNames}">
+                <span th:text="${entry.key}">Student Name</span> -
+                <span th:text="${entry.value}">Count</span> time(s)
+            </li>
+            <li>
+                <span th:text="${amountDuplicateNames}"> </span> - amount of duplicated names
+            </li>
+        </ul>
+        <h2>Students from File (sort + filter)</h2>
+        <ul>
+            <li th:each="student : ${studentsFromFile}">
+                <span th:text="${student.name}">Student Name</span>,
+                <span th:text="${student.age}">Student Age</span> years old
+            </li>
+        </ul>
+        <h2>Students from XML-String</h2>
+        <ul>
+            <li th:each="student : ${studentStrings}">
+                <span th:text="${student}"></span>
+            </li>
+        </ul>
+        <h2>Student from XML-Object</h2>
+        <ul>
+            <li th:each="student : ${studentObjects}">
+                <span th:text="${student.name}">Student Name</span>,
+                <span th:text="${student.age}">Student Age</span> years old
+            </li>
+        </ul>
+        <h2>Student Class</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Course:</strong></td>
+                <td>
+                    <span th:text="${studentClass.course.title}"></span> -
+                    <span th:text="${studentClass.course.description}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Teacher:</strong></td>
+                <td>
+                    <span th:text="${studentClass.teacher.name}"></span> (Age:
+                    <span th:text="${studentClass.teacher.age}"></span>, Experience:
+                    <span th:text="${studentClass.teacher.experience}"></span>)
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Students:</strong></td>
+                <td>
+                    <ul>
+                        <li th:each="student : ${studentClass.students}">
+                            <span th:text="${student.name}"></span> (Age:
+                            <span th:text="${student.age}"></span>)
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-        </li>
-    </ul>
-    <h2>Student's Enrollments</h2>
-    <ul>
-        <li th:each="entry : ${studentEnrollmentCounts}">
-            <span th:text="${entry.key}">Student Name</span>,
-            <span th:text="${entry.value}">Student course</span>,
+        <h2>Assignment Details</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Title:</strong></td>
+                <td><span th:text="${assignment.title}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Description:</strong></td>
+                <td><span th:text="${assignment.description}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Completed:</strong></td>
+                <td><span th:text="${assignment.isCompleted ? 'Yes' : 'No'}"></span></td>
+            </tr>
+            </tbody>
+        </table>
 
-        </li>
-    </ul>
-    <h2>Enrollments from file (sort + filter)</h2>
-    <ul>
-        <li th:each="enrollment : ${enrollmentsFromFile}">
-            <span th:text="${enrollment.student.name}">Enrollment Student Name</span>,
-            <span th:text="${enrollment.course.title}">Enrollment course title</span>
-            (<span th:text="${enrollment.course.duration}">Enrollment course duration</span>)
-        </li>
-    </ul>
-    <h2>Enrollments from XML</h2>
-    <ul>
-        <li th:each="enrollment : ${enrollmentsFromXML}">
-            <span th:text="${enrollment.student.name}">Enrollment Student Name</span>,
-            <span th:text="${enrollment.course.title}">Enrollment course title</span>
-            (<span th:text="${enrollment.course.duration}">Enrollment course duration</span>)
-        </li>
-    </ul>
-</div>
+        <h2>Teacher Details</h2>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Experience</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Modified:</strong></td>
+                <td><span th:text="${teacherSaved.name}"></span></td>
+                <td><span th:text="${teacherSaved.age}"></span></td>
+                <td><span th:text="${teacherSaved.experience}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Original:</strong></td>
+                <td><span th:text="${teacher.name}"></span></td>
+                <td><span th:text="${teacher.age}"></span></td>
+                <td><span th:text="${teacher.experience}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div>
+        <h2>Maksym Shepeta</h2>
+        <ul>
+            <li th:each="enrollment : ${enrollments}">
+                <span th:text="${enrollment.student.name}">Student Name</span> enrolled in
+                <span th:text="${enrollment.course.title}">Course Title</span>
+            </li>
+        </ul>
+        <h2>Filtered by Student-name</h2>
+        <ul>
+            <li th:each="enrollment : ${streamEnrollmentsContainsSth}">
+                <span th:text="${enrollment.student.name}">Student Name</span>,
+                <span th:text="${enrollment.course.title}">Student course</span>,
+
+            </li>
+        </ul>
+        <h2>Student's Enrollments</h2>
+        <ul>
+            <li th:each="entry : ${studentEnrollmentCounts}">
+                <span th:text="${entry.key}">Student Name</span>,
+                <span th:text="${entry.value}">Student course</span>,
+
+            </li>
+        </ul>
+        <h2>Enrollments from file (sort + filter)</h2>
+        <ul>
+            <li th:each="enrollment : ${enrollmentsFromFile}">
+                <span th:text="${enrollment.student.name}">Enrollment Student Name</span>,
+                <span th:text="${enrollment.course.title}">Enrollment course title</span>
+                (<span th:text="${enrollment.course.duration}">Enrollment course duration</span>)
+            </li>
+        </ul>
+        <h2>Enrollments from XML</h2>
+        <ul>
+            <li th:each="enrollment : ${enrollmentsFromXML}">
+                <span th:text="${enrollment.student.name}">Enrollment Student Name</span>,
+                <span th:text="${enrollment.course.title}">Enrollment course title</span>
+                (<span th:text="${enrollment.course.duration}">Enrollment course duration</span>)
+            </li>
+        </ul>
+        <h2>Exam</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Course Title:</strong></td>
+                <td><span th:text="${exam.subject}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Exam Date:</strong></td>
+                <td><span th:text="${exam.date}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Exam Points (max):</strong></td>
+                <td><span th:text="${exam.maxScore}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Exam Session</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Exam Session ID:</strong></td>
+                <td><span th:text="${examSession.id}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Exam Session Start Date:</strong></td>
+                <td><span th:text="${examSession.startDate}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Exam Session End Date:</strong></td>
+                <td><span th:text="${examSession.endDate}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Exam Session Description:</strong></td>
+                <td><span th:text="${examSession.description}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Exam DTO</h2>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Score(max)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Modified:</strong></td>
+                <td><span th:text="${updatedExamDTO.subject}"></span></td>
+                <td><span th:text="${updatedExamDTO.date}"></span></td>
+                <td><span th:text="${updatedExamDTO.maxScore}"></span></td>
+            </tr>
+            <tr>
+                <td><strong>Rolled back:</strong></td>
+                <td><span th:text="${rolledBackExamDTO.subject}"></span></td>
+                <td><span th:text="${rolledBackExamDTO.date}"></span></td>
+                <td><span th:text="${rolledBackExamDTO.maxScore}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
