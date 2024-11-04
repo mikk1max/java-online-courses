@@ -29,4 +29,7 @@ public class Exam {
     private LocalDate date;
 
     private Integer maxScore;
+
+    @NonNull
+    private Boolean isActive = true;
 }
