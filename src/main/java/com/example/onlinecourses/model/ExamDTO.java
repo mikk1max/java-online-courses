@@ -14,6 +14,7 @@ public class ExamDTO {
     private String subject;
     private LocalDate date;
     private Integer maxScore;
+    private boolean isActive;
 
     // Save the original state of the object
     private Exam originalState;
@@ -24,7 +25,7 @@ public class ExamDTO {
         this.subject = exam.getSubject();
         this.date = exam.getDate();
         this.maxScore = exam.getMaxScore();
-        this.originalState = new Exam(exam.getId(), exam.getSubject(), exam.getDate(), exam.getMaxScore());
+        this.originalState = new Exam(exam.getId(), exam.getSubject(), exam.getDate(), exam.getMaxScore(), exam.getIsActive());
     }
 
     public ExamDTO(ExamDTO examDTO) {
@@ -32,6 +33,7 @@ public class ExamDTO {
         this.subject = examDTO.subject;
         this.date = examDTO.date;
         this.maxScore = examDTO.maxScore;
+        this.isActive = examDTO.isActive;
         this.originalState = examDTO.originalState; // If you want to keep the original state reference
     }
 
@@ -40,7 +42,7 @@ public class ExamDTO {
         // Check if originalState is already set
         if (originalState == null) {
             // Save the original state before any updates
-            originalState = new Exam(id, subject, date, maxScore);
+            originalState = new Exam(id, subject, date, maxScore, isActive);
         }
         this.subject = newSubject;
         this.date = newDate;
@@ -59,6 +61,6 @@ public class ExamDTO {
 
     // Map ExamDTO to Exam entity
     public Exam toExam() {
-        return new Exam(id, subject, date, maxScore);
+        return new Exam(id, subject, date, maxScore, isActive);
     }
 }
