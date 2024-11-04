@@ -18,7 +18,20 @@ INSERT INTO exam (subject, date, max_score, is_active) VALUES
 
 
 -- for schedule table
--- Schedule schedule = new Schedule("Advanced java", "15/04/2024", "15/10/2024", "Lecture hall 201");
+
+CREATE TABLE schedule (
+                      id SERIAL PRIMARY KEY,
+                      course_title VARCHAR(255) NOT NULL,
+                      start_date VARCHAR(255) NOT NULL,
+                      end_date VARCHAR(255) NOT NULL,
+                      location VARCHAR(255) NOT NULL,
+                      is_active BOOLEAN DEFAULT true
+);
+
+INSERT INTO schedule (course_title, start_date, end_date, location, is_active) VALUES
+                                                           ('Pyton courses', '10/05/2024', '10/10/2024', 'lecture hall 201', true),
+                                                           ('C++ courses', '15/05/2024', '15/10/2024', 'lecture hall 301', true),
+                                                           ('C# courses', '20/05/2024', '20/10/2024', 'lecture hall 402', true);
 
 
 
