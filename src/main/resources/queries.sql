@@ -24,6 +24,20 @@ INSERT INTO exam (subject, date, max_score, is_active) VALUES
 
 
 
--- for studentClass table
--- Teacher originalTeacher = new Teacher("Jan Kowalski", 40, 15, 50.0, 101);
--- StudentClass studentClass = new StudentClass(students, 'Advanced java', originalTeacher);
+-- for teacher table
+CREATE TABLE teacher(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INTEGER NOT NULL,
+    experience INTEGER NOT NULL,
+    hourly_rate DOUBLE PRECISION NOT NULL,
+    is_active BOOLEAN DEFAULT true
+);
+
+INSERT INTO teacher (name, age, experience, hourly_rate, is_active) VALUES
+('Adrian Nowak', 30, 5, 20.0, true),
+('Beata Karol', 40, 10, 25.0, true),
+('Karolina Nowak', 35, 7, 22.5, true),
+('Ryan Gosling', 28, 3, 18.0, true),
+('John Snow', 45, 15, 30.0, true);
+
