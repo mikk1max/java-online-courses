@@ -32,6 +32,7 @@ public class ExamRepository {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public Exam save(Exam exam) {
         String sql = "INSERT INTO exam (subject, date, max_score, is_active) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, exam.getSubject(), exam.getDate(), exam.getMaxScore(), exam.getIsActive());
