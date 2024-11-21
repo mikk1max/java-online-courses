@@ -3,7 +3,6 @@
 <head>
     <title>Online Courses</title>
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -11,7 +10,6 @@
         .container {
             display: flex;
             justify-content: space-between;
-
         }
 
         .container div {
@@ -74,11 +72,37 @@
             color: #4CAF50;
         }
 
+        /* Logout button styling */
+        a.logout-btn {
+            display: block;
+            width: max-content;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        a.logout-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.1);
+        }
+
+        a.logout-btn:active {
+            background-color: #b03a2e;
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
 
 <h1>Welcome to Online Courses Info</h1>
+<a th:href="@{/logout}" class="logout-btn">Logout</a>
+
 
 <div class="container">
     <div>
