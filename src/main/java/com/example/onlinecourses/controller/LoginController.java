@@ -31,6 +31,7 @@ public class LoginController {
             return "redirect:/register?error"; // Jeśli użytkownik istnieje
         }
         userService.saveUser(user);
-        return "redirect:/login?success"; // Po udanej rejestracji przekieruj do logowania
+        return "redirect:/index"; // Po udanej rejestracji przekieruj na stronę główną
     }
+
 }
