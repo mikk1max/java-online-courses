@@ -54,3 +54,13 @@ INSERT INTO teacher (name, age, experience, hourly_rate, is_active) VALUES
 ('Ryan Gosling', 28, 3, 18.0, true),
 ('John Snow', 45, 15, 30.0, true);
 
+CREATE TABLE users (
+                       id SERIAL PRIMARY KEY,
+                       username VARCHAR(50) UNIQUE NOT NULL,
+                       password VARCHAR(64) NOT NULL,
+                       role VARCHAR(20) NOT NULL
+);
+
+INSERT INTO users (username, password, role) VALUES
+                                                 ('admin', 'password', 'ADMIN'),
+                                                 ('user', 'password', 'USER');
