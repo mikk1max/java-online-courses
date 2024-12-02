@@ -17,7 +17,7 @@ public class SecurityConfig {
                         .requestMatchers("/register", "/login", "/").permitAll() // Strony publiczne
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
                         .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
-                        .requestMatchers("/index").authenticated() // Dostęp do /index tylko dla zalogowanych użytkowników
+                        .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
                         .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
 
                 .formLogin(form -> form
@@ -38,10 +38,12 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .invalidateHttpSession(true)  // Inwalidacja sesji po wylogowaniu
-                        .clearAuthentication(true)    // Wyczyść informacje o autentykacji
-                        .logoutSuccessUrl("/login")   // Przekierowanie na stronę logowania
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID") // Add this line
                         .permitAll())
+
                 .exceptionHandling(handling -> handling
                         .accessDeniedPage("/login"));
 
