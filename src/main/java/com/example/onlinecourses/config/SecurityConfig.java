@@ -14,27 +14,42 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/register", "/login", "/").permitAll() // Strony publiczne
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
+                        .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
+                        .requestMatchers("/index").authenticated() // Dostęp do /index tylko dla zalogowanych użytkowników
+                        .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
+
                 .formLogin(form -> form
-                        .loginPage("/login") // Strona logowania
-                        .loginProcessingUrl("/login") // Endpoint obsługujący logowanie
-                        .defaultSuccessUrl("/", true) // Domyślna strona po zalogowaniu
-                        .failureUrl("/login?error=true") // Strona po nieudanym logowaniu
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .successHandler((request, response, authentication) -> {
+                            // Przekierowanie po zalogowaniu na odpowiednią stronę
+                            boolean isAdmin = authentication.getAuthorities().stream()
+                                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+
+                            if (isAdmin) {
+                                response.sendRedirect("/admin");
+                            } else {
+                                response.sendRedirect("/index");
+                            }
+                        })
+                        .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // Endpoint wylogowania
-                        .logoutSuccessUrl("/login?logout=true") // Po wylogowaniu
-                        .invalidateHttpSession(true) // Unieważnienie sesji
-                        .deleteCookies("JSESSIONID") // Usunięcie ciasteczek sesji
-                        .permitAll());
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)  // Inwalidacja sesji po wylogowaniu
+                        .clearAuthentication(true)    // Wyczyść informacje o autentykacji
+                        .logoutSuccessUrl("/login")   // Przekierowanie na stronę logowania
+                        .permitAll())
+                .exceptionHandling(handling -> handling
+                        .accessDeniedPage("/login"));
+
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
-

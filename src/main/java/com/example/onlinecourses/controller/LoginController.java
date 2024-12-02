@@ -14,8 +14,16 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+
+
     @GetMapping("/login")
     public String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+
         return "login";
     }
 
@@ -24,6 +32,22 @@ public class LoginController {
         model.addAttribute("user", new User());
         return "register";
     }
+
+    @Controller
+    public class RoleBasedController {
+
+        @GetMapping("/admin")
+        public String adminPage(Model model) {
+            model.addAttribute("users", userService.getAllUsers());
+            return "admin";
+        }
+
+        @GetMapping("/")
+        public String index(Model model) {
+            return "login";
+        }
+    }
+
 
     @PostMapping("/register")
     public String processRegistration(User user) {

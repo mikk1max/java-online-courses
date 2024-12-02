@@ -34,7 +34,7 @@ public class HomeController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String home(Model model) throws Exception {
         courses = initializeService.initializeCourses();
         students = initializeService.initializeStudents();

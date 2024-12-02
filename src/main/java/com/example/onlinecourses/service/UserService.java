@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -16,20 +18,17 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User findByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-//        if (user == null) {
-//            System.out.println("User not found: " + username);
-//        } else {
-//            System.out.println("User found: " + user.getUsername());
-//        }
-        return user;
+        return userRepository.findByUsername(username);
     }
 
-
     public void saveUser(User user) {
-        // Haszujemy hasło przy użyciu BCryptPasswordEncoder
+        // Hash the password using BCryptPasswordEncoder
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");  // Przydzielamy domyślną rolę
+        user.setRole("ROLE_USER");  // Assign a default role
         userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
