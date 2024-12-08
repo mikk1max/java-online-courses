@@ -21,11 +21,11 @@ public class UserServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
 
+        // Dodajemy wszystkie role użytkownika
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().replace("ROLE_", "")) // Ustawienie poprawnej roli
+                .roles(user.getRole().split(","))  // Jeśli role są zapisane jako stringi oddzielone przecinkami
                 .build();
     }
 }
-
