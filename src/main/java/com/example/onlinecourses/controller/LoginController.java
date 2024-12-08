@@ -59,9 +59,6 @@ public class LoginController {
         userService.saveUser(user);
         return "redirect:/index"; // Po udanej rejestracji przekieruj na stronę główną
     }
-    @GetMapping("/logout")
-    public String logout() {
-        return "login";
-    }
+
 
 }

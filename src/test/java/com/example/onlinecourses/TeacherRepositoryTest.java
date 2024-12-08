@@ -107,11 +107,10 @@ class TeacherRepositoryTest {
         assertThrows(RuntimeException.class, () -> teacherRepository.save(teacher));
     }
 
-
     @Test
     void deactivate_ShouldReturnNumberOfUpdatedRows() {
         // Arrange
-        when(jdbcTemplate.update(anyString(), Optional.ofNullable(any()))).thenReturn(1);
+        when(jdbcTemplate.update(anyString(), anyLong())).thenReturn(1);
 
         // Act
         int rowsUpdated = teacherRepository.deactivate(1L);
@@ -123,11 +122,10 @@ class TeacherRepositoryTest {
     @Test
     void delete_ShouldReturnNumberOfDeletedRows() {
         // Arrange
-        when(jdbcTemplate.update(anyString(), Optional.ofNullable(any()))).thenReturn(1);
+        when(jdbcTemplate.update(anyString(), anyLong())).thenReturn(1);
 
         // Act
         int rowsDeleted = teacherRepository.delete(1L);
-
         // Assert
         assertEquals(1, rowsDeleted);
     }
@@ -135,7 +133,7 @@ class TeacherRepositoryTest {
     @Test
     void delete_ShouldReturnZero_WhenNoRowsDeleted() {
         // Arrange
-        when(jdbcTemplate.update(anyString(), Optional.ofNullable(any()))).thenReturn(0);
+        when(jdbcTemplate.update(anyString(), anyLong())).thenReturn(0);
 
         // Act
         int rowsDeleted = teacherRepository.delete(99L);
