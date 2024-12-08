@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().split(","))  // Jeśli role są zapisane jako stringi oddzielone przecinkami
+                .roles(user.getRole().replace("ROLE_", ""))
                 .build();
     }
 }
