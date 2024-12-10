@@ -5,61 +5,22 @@
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .container div {
-            margin: 0 20px;
-            padding: 10px;
-            border: dotted black;
-            width: calc((100% - 80px) / 3);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        ul {
-            list-style: none;
+            margin: 0;
             padding: 0;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
+            padding: 20px;
+            background-color: #f4f4f9;
         }
 
-        /* Table styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        h1 {
+            text-align: center;
+            color: #333;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #ddd;
-        }
-
-        /* Heading styles */
         h2 {
             color: #333;
             margin-top: 30px;
@@ -67,13 +28,47 @@
             padding-bottom: 10px;
         }
 
-        /* Strong text styles */
-        strong {
-            color: #4CAF50;
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 8px;
         }
 
-        /* Logout button styles */
-        a.logout {
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .logout {
             display: inline-block;
             background-color: #f44336; /* Red color */
             color: white;
@@ -86,30 +81,37 @@
             transition: background-color 0.3s;
         }
 
-        a.logout:hover {
+        .logout:hover {
             background-color: #d32f2f; /* Darker red when hovered */
         }
+
     </style>
 </head>
 <body>
 <h1>Welcome Admin!</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Role</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}">ID</td>
-        <td th:text="${user.username}">Username</td>
-        <td th:text="${user.role}">Role</td>
-    </tr>
-    </tbody>
-</table>
+<h2>Create New Teacher</h2>
+<form th:action="@{/admin}" method="post" th:object="${teacher}">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" th:field="*{username}" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" th:field="*{password}" required><br><br>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:field="*{name}" required><br><br>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" th:field="*{age}" required><br><br>
+
+    <label for="experience">Experience (years):</label>
+    <input type="number" id="experience" name="experience" th:field="*{experience}" required><br><br>
+
+    <label for="hourlyRate">Hourly Rate:</label>
+    <input type="number" step="0.01" id="hourlyRate" name="hourlyRate" th:field="*{hourlyRate}" required><br><br>
+
+    <button type="submit">Create Teacher</button>
+</form>
 
 <a class="logout" th:href="@{/logout}">Logout</a>
 </body>

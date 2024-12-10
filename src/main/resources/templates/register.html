@@ -43,7 +43,8 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="number"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -81,10 +82,18 @@
 <body>
 <div>
     <h1>Register</h1>
-    <form th:action="@{/register}" method="post" th:object="${user}">
+    <form th:action="@{/register}" method="post" th:object="${student}">
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" th:field="*{username}" required />
+        </div>
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" required />
+        </div>
+        <div>
+            <label for="age">Age:</label>
+            <input type="number" id="age" th:field="*{age}" required />
         </div>
         <div>
             <label for="password">Password:</label>

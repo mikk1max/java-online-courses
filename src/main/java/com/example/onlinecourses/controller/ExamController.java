@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exams")
+@RequestMapping("/admin/exams")
 public class ExamController {
-    @Autowired
-    private ExamService examService;
+
+    private final ExamService examService;
+
+    public ExamController(ExamService examService) {
+        this.examService = examService;
+    }
 
     @GetMapping
     public List<Exam> getAllExams() {

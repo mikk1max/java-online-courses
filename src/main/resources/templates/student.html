@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('/images/green-back.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #4CAF50;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 24px;
+            color: #e74c3c;
+            text-decoration: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            color: #c0392b;
+            transform: scale(1.2);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .container > div {
+            flex: 1 1 calc(33.33% - 20px);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            opacity: 0.9;
+            min-width: 280px;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: lightgreen;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li:hover {
+            background-color: lightgray;
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-form input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1 1 60%;
+            min-width: 200px;
+        }
+
+        .filter-form button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-form button:hover {
+            background-color: #45a049;
+        }
+
+        .filter-form .reset-btn {
+            background-color: #e74c3c;
+        }
+
+        .filter-form .reset-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #4CAF50;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: #45a049 solid;
+            border-radius: 5px;
+            z-index: 1;
+            min-width: 160px;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-10px);
+        }
+
+        .dropdown-menu a {
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            color: #333;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: lightgray;
+        }
+
+        .dropdown.open .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+                padding: 10px 15px;
+            }
+
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .container > div {
+                flex: 1 1 100%;
+            }
+
+            .filter-form input {
+                flex: 1 1 100%;
+            }
+
+            .filter-form button {
+                width: 100%;
+            }
+
+            .filter-form .reset-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logout-btn {
+                font-size: 20px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .filter-form input {
+                flex: 1 1 100%;
+            }
+
+            .dropdown-btn {
+                font-size: 18px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Welcome to Online Courses Info, Student</h1>
+<a th:href="@{/logout}" class="logout-btn" title="Logout"><i class="fa fa-close" style="font-size:48px"></i></a>
+
+<div class="container">
+    <div>
+        <div style="display: flex; justify-content: space-between;">
+            <div><h2>Courses</h2></div>
+            <div class="dropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown(event)">
+                    <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="/student/home/download/courses.txt">Save as .txt</a>
+                    <a href="/student/home/download/courses.xml">Save as .xml</a>
+                </div>
+            </div>
+        </div>
+
+        <form class="filter-form" action="/student/home" method="get">
+            <label for="keyword">Find a course:</label>
+            <input type="text" id="keyword" name="keyword" placeholder="ex: Java">
+            <button type="submit">Search</button>
+            <button type="button" class="reset-btn" onclick="resetFilters()">Reset</button>
+        </form>
+        <ul>
+            <li th:each="course : ${filtered_courses != null ? filtered_courses : courses}">
+                <strong th:text="${course.title}">Course Title</strong><br>
+                <span th:text="${course.description}">Course Description</span><br>
+                Duration: <span th:text="${course.duration}">Course Duration</span> hours
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <h2>Teachers</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Experience</th>
+                <th>Hourly Rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="teacher : ${teachers}">
+                <td th:text="${teacher.name}">Name</td>
+                <td th:text="${teacher.age}">Age</td>
+                <td th:text="${teacher.experience}">Experience</td>
+                <td th:text="${teacher.hourlyRate}">Hourly Rate</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h2>Schedule</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="schedule : ${schedules}">
+                <td th:text="${schedule.courseTitle}">Course Title</td>
+                <td th:text="${schedule.startDate}">Start Date</td>
+                <td th:text="${schedule.endDate}">End Date</td>
+                <td th:text="${schedule.location}">Location</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Exams</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Max Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${exams}">
+                <td th:text="${exam.subject}">Subject</td>
+                <td th:text="${exam.date}">Date</td>
+                <td th:text="${exam.maxScore}">Max Score</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown(event) {
+        const dropdown = event.target.closest('.dropdown');
+        dropdown.classList.toggle('open');
+    }
+
+    document.addEventListener('click', (event) => {
+        document.querySelectorAll('.dropdown.open').forEach(dropdown => {
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+    });
+
+    function resetFilters() {
+        window.location.href = "/student/home";
+    }
+</script>
+</body>
+</html>
