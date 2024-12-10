@@ -19,6 +19,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
                         .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
                         .requestMatchers("/student/home").hasRole("USER")
+                        .requestMatchers("/teacher/home").hasRole("TEACHER")
                         .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
 
                 .formLogin(form -> form
@@ -28,10 +29,14 @@ public class SecurityConfig {
                             // Przekierowanie po zalogowaniu na odpowiednią stronę
                             boolean isAdmin = authentication.getAuthorities().stream()
                                     .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+                            boolean isTeacher = authentication.getAuthorities().stream()
+                                    .anyMatch(role -> role.getAuthority().equals("ROLE_TEACHER"));
 
                             if (isAdmin) {
                                 response.sendRedirect("/admin");
-                            } else {
+                            } else if(isTeacher) {
+                                response.sendRedirect("/teacher/home");
+                            }else{
                                 response.sendRedirect("/student/home");
                             }
                         })

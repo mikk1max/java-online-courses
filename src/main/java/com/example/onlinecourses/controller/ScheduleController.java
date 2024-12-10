@@ -1,6 +1,4 @@
 package com.example.onlinecourses.controller;
-
-
 import com.example.onlinecourses.model.Schedule;
 import com.example.onlinecourses.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;

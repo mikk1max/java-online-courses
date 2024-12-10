@@ -100,85 +100,58 @@
 </head>
 <body>
 
-<h1>Welcome to Online Courses Info, Student</h1>
+<h1>Welcome to Online Courses Info, Teacher</h1>
 <a th:href="@{/logout}" class="logout-btn">Logout</a>
 
 
 <div class="container">
     <div>
-        <h2>Actual courses</h2>
+        <h2>Student List</h2>
         <ul>
-            <li th:each="course : ${courses}">
-                <span th:text="${course.title}">Course Title</span> -
-                <span th:text="${course.description}">Course Description</span>
-                (<span th:text="${course.duration}">Course Duration</span> hours)
+            <li th:each="student : ${students}">
+                <span th:text="${student.name}">Name</span> -
+                <span th:text="${student.age}">Age</span>
             </li>
         </ul>
-      <div>
-        <h2>Download Files</h2>
-        <a href="/download/courses.txt" class="btn btn-primary">Download TXT File</a>
-        <a href="/download/courses.xml" class="btn btn-primary">Download XML File</a>
-      </div>
+        <div>
+            <h2>Download Files</h2>
+            <a href="/download/students.txt" class="btn btn-primary">Download TXT File</a>
+            <a href="/download/students.xml" class="btn btn-primary">Download XML File</a>
+        </div>
+        <h2>Filtered students</h2>
+        <form action="/teacher/home" method="get">
+            <label for="keyword">Filter by keyword:</label>
+            <input type="text" id="keyword" name="keyword" placeholder="Enter a keyword">
+            <button type="submit">Filter</button>
+        </form>
+        <ul>
+            <li th:each="student : ${filtered_students}">
+                <span th:text="${student.name}">Name</span> -
+                <span th:text="${student.age}">Age</span>
+            </li>
+        </ul>
 
-      <!-- Courses with keyword filter -->
-        <h2>Filtered courses</h2>
-      <form action="/student/home" method="get">
-        <label for="keyword">Filter by keyword:</label>
-        <input type="text" id="keyword" name="keyword" placeholder="Enter a keyword">
-        <button type="submit">Filter</button>
-      </form>
-      <ul>
-            <li th:each="course : ${filtered_courses}">
-                <span th:text="${course.title}">Course Title</span> -
-                <span th:text="${course.description}">Course Description</span>
-                (<span th:text="${course.duration}">Course Duration</span> hours)
-            </li>
-        </ul>
     </div>
 
     <div>
-        <h2>Teachers</h2>
+        <h2>Enrollments</h2>
         <table>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Experience</th>
-                <th>Hourly Rate</th>
+                <th>Student</th>
+                <th>Course</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="teacher : ${teachers}">
-                <td th:text="${teacher.name}">Name</td>
-                <td th:text="${teacher.age}">Age</td>
-                <td th:text="${teacher.experience}">Experience</td>
-                <td th:text="${teacher.hourlyRate}">Hourly Rate</td>
+            <tr th:each="enrollment : ${enrollmentInfo}">
+                <td th:text="${enrollment.getKey()}"></td>
+                <td th:text="${enrollment.getValue()}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 
     <div>
-        <h2>Schedule</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Location</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="schedule : ${schedules}">
-                <td><span th:text="${schedule.courseTitle}"></span></td>
-                <td><span th:text="${schedule.startDate}"></span></td>
-                <td><span th:text="${schedule.endDate}"></span></td>
-                <td><span th:text="${schedule.location}"></span></td>
-            </tr>
-            </tbody>
-        </table>
-
         <h2>Exam</h2>
         <table>
             <thead>

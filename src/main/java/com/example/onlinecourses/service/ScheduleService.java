@@ -10,49 +10,38 @@ import java.util.List;
 @Service
 public class ScheduleService {
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private ScheduleRepository scheduleRepositoryJPA;
 
     public List<Schedule> getAllSchedules() {
-        return scheduleRepository.findAll();
+        return scheduleRepositoryJPA.findAllByIsActiveTrue();
     }
 
     public Schedule getScheduleById(Long id) {
-        return scheduleRepository.findById(id);
+        return scheduleRepositoryJPA.findById(id).orElse(null);
     }
 
     public Schedule saveSchedule(Schedule schedule) {
-        return scheduleRepository.save(schedule);
+        return scheduleRepositoryJPA.save(schedule);
     }
 
     public Schedule updateSchedule(Long id, Schedule updatedSchedule) {
-        Schedule existingSchedule = scheduleRepository.findById(id);
-        if (existingSchedule == null) {
-            throw new RuntimeException("Schedule not found");
-        }
-
-        if (updatedSchedule.getCourseTitle() != null) {
+        return scheduleRepositoryJPA.findById(id).map(existingSchedule -> {
             existingSchedule.setCourseTitle(updatedSchedule.getCourseTitle());
-        }
-        if (updatedSchedule.getStartDate() != null) {
             existingSchedule.setStartDate(updatedSchedule.getStartDate());
-        }
-        if (updatedSchedule.getEndDate() != null) {
             existingSchedule.setEndDate(updatedSchedule.getEndDate());
-        }
-        if (updatedSchedule.getLocation() != null) {
             existingSchedule.setLocation(updatedSchedule.getLocation());
-        }
-
-        scheduleRepository.update(id, existingSchedule);
-        return existingSchedule;
+            return scheduleRepositoryJPA.save(existingSchedule);
+        }).orElseThrow(() -> new RuntimeException("Shedule not found"));
     }
 
     public void deactivateSchedule(Long id) {
-        scheduleRepository.deactivate(id);
+        scheduleRepositoryJPA.findById(id).ifPresent(schedule -> {
+            schedule.setIsActive(false);
+            scheduleRepositoryJPA.save(schedule);
+        });
     }
 
-
     public void deleteSchedule(Long id) {
-        scheduleRepository.delete(id);
+        scheduleRepositoryJPA.deleteById(id);
     }
 }

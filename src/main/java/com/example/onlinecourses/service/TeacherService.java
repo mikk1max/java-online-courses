@@ -1,16 +1,16 @@
 package com.example.onlinecourses.service;
 
 import com.example.onlinecourses.model.Teacher;
-import com.example.onlinecourses.repository.TeacherRepositoryJPA;
+import com.example.onlinecourses.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TeacherServiceJPA {
+public class TeacherService {
     @Autowired
-    private TeacherRepositoryJPA teacherRepository;
+    private TeacherRepository teacherRepository;
 
     public List<Teacher> getAllTeachers() {
         return teacherRepository.findAllByIsActiveTrue();

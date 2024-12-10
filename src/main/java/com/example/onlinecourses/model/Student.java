@@ -1,39 +1,41 @@
 package com.example.onlinecourses.model;
 
-public class Student extends User {
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Setter
+@Getter
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
+    private Long id;
+    @NonNull
     private String name;
+    @NonNull
     private int age;
 
-    public Student(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-    public Student(){
-
-    }
-
-    // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "enrollment",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courses = new HashSet<>();
 
     @Override
     public String toString() {
         return "Student{" +
-            "name='" + name + '\'' +
-            ", age=" + age +
-            '}';
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

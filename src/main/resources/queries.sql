@@ -1,8 +1,28 @@
 -- springdb
 
--- for exam table
--- Exam exam = new Exam("Java", LocalDate.of(2024, 12, 16));
--- exam.setMaxScore(100);
+--Course
+CREATE TABLE course (
+                        id SERIAL PRIMARY KEY,
+                        title VARCHAR(200) NOT NULL,
+                        description TEXT,
+                        duration INT NOT NULL CHECK (duration > 0)
+);
+
+INSERT INTO course (title, description, duration)
+VALUES
+    ('Spring Boot Basics', 'Poznaj podstawy Spring Boot', 10),
+    ('React Native', 'Twórz aplikacje mobilne za pomocą React Native', 8),
+    ('Advanced Java', 'Master advanced concepts of Java programming', 12),
+    ('Node.js & Express', 'Build backend services using Node.js and Express', 9),
+    ('HTML & CSS Fundamentals', 'Learn the basics of web development with HTML and CSS', 6),
+    ('JavaScript ES6+', 'Explore modern JavaScript features from ES6 and beyond', 7),
+    ('Database Management', 'Understand relational databases and SQL', 10),
+    ('Firebase Integration', 'Integrate Firebase services in your mobile and web apps', 5),
+    ('React.js', 'Build interactive UIs with React.js', 8),
+    ('REST API Development', 'Design and implement RESTful APIs', 6);
+
+
+--Exam
 CREATE TABLE exam (
                       id SERIAL PRIMARY KEY,
                       subject VARCHAR(255) NOT NULL,
@@ -17,7 +37,7 @@ INSERT INTO exam (subject, date, max_score, is_active) VALUES
                                                            ('Physics', '2024-11-15', 85, true);
 
 
--- for schedule table
+-- Schedule
 
 CREATE TABLE schedule (
                       id SERIAL PRIMARY KEY,
@@ -34,10 +54,61 @@ INSERT INTO schedule (course_title, start_date, end_date, location, is_active) V
                                                            ('C# courses', '20/05/2024', '20/10/2024', 'lecture hall 402', true);
 
 
+--Student
+CREATE TABLE student (
+                         id SERIAL PRIMARY KEY,
+                         name VARCHAR(100) NOT NULL,
+                         age INT NOT NULL CHECK (age > 0)
+);
+
+INSERT INTO student (name, age)
+VALUES
+    ('Milena Runets', 21),
+    ('Max Shepeta', 20),
+    ('Leanid Shaveika', 21),
+    ('John Doe', 22),
+    ('Oleg Nowak', 21),
+    ('Jane Doe', 21),
+    ('Justin Quinn', 15),
+    ('Rayan Goslindg', 13),
+    ('Oleg Nowak', 25),
+    ('John Doe', 22),
+    ('Adam Kim', 55),
+    ('Nicholas Jones', 15);
 
 
+--Enrollments
+CREATE TABLE enrollment (
+                            id SERIAL PRIMARY KEY,  -- Автоматическое увеличение для ID
+                            student_id BIGINT NOT NULL,            -- ID студента (внешний ключ)
+                            course_id BIGINT NOT NULL,             -- ID курса (внешний ключ)
+                            FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+                            FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+);
 
--- for teacher table
+INSERT INTO enrollment (student_id, course_id)
+VALUES
+    (1, 1),
+    (2, 2),
+    (1, 3),
+    (2, 4),
+    (3, 5),
+    (3, 6),
+    (4, 3),
+    (4, 7),
+    (5, 8),
+    (6, 9),
+    (2, 8),
+    (6, 10),
+    (7, 6),
+    (8, 7),
+    (9, 5),
+    (10, 4),
+    (11, 2),
+    (12, 1),
+    (2, 1);
+
+--Teacher
 CREATE TABLE teacher(
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -54,6 +125,7 @@ INSERT INTO teacher (name, age, experience, hourly_rate, is_active) VALUES
 ('Ryan Gosling', 28, 3, 18.0, true),
 ('John Snow', 45, 15, 30.0, true);
 
+--Users
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        username VARCHAR(50) UNIQUE NOT NULL,
@@ -61,6 +133,3 @@ CREATE TABLE users (
                        role VARCHAR(20) NOT NULL
 );
 
-INSERT INTO users (username, password, role) VALUES
-                                                 ('admin', 'password', 'ADMIN'),
-                                                 ('user', 'password', 'USER');
