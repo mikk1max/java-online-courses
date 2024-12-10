@@ -1,6 +1,6 @@
 package com.example.onlinecourses.model;
 
-public class Student {
+public class Student extends User {
     private String name;
     private int age;
 

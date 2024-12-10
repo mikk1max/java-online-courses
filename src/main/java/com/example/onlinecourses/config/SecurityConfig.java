@@ -18,6 +18,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
                         .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
                         .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
+                        .requestMatchers("/student/home").hasRole("USER")
                         .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
 
                 .formLogin(form -> form
@@ -31,7 +32,7 @@ public class SecurityConfig {
                             if (isAdmin) {
                                 response.sendRedirect("/admin");
                             } else {
-                                response.sendRedirect("/index");
+                                response.sendRedirect("/student/home");
                             }
                         })
                         .failureUrl("/login?error=true")
