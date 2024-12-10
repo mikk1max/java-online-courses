@@ -167,54 +167,7 @@
                 (<span th:text="${course.duration}">Course Duration</span> hours)
             </li>
         </ul>
-        <h2>Certificate</h2>
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Mark</th>
-                <th>Type</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Modified:</strong></td>
-                <td><span th:text="${certificateSave.courseTitle}"></span></td>
-                <td><span th:text="${certificateSave.issueDate}"></span></td>
-                <td><span th:text="${certificateSave.grade}"></span></td>
-                <td><span th:text="${certificateSave.certificateType}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Rolled back:</strong></td>
-                <td><span th:text="${certificate.courseTitle}"></span></td>
-                <td><span th:text="${certificate.issueDate}"></span></td>
-                <td><span th:text="${certificate.grade}"></span></td>
-                <td><span th:text="${certificate.certificateType}"></span></td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h2>Feedback</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Score</th>
-                <th>Comment</th>
-                <th>Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span th:text="${feedback.courseTitle}"></span></td>
-                <td><span th:text="${feedback.score}"></span> / 5</td>
-                <td><span th:text="${feedback.comment}"></span></td>
-                <td><span th:text="${feedback.date}"></span></td>
-            </tr>
-            </tbody>
-        </table>
 
         <h2>Schedule</h2>
         <table>
@@ -287,93 +240,10 @@
                 <span th:text="${student.age}">Student Age</span> years old
             </li>
         </ul>
-        <h2>Student Class</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Field</th>
-                <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Course:</strong></td>
-                <td>
-                    <span th:text="${studentClass.course.title}"></span> -
-                    <span th:text="${studentClass.course.description}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Teacher:</strong></td>
-                <td>
-                    <span th:text="${studentClass.teacher.name}"></span> (Age:
-                    <span th:text="${studentClass.teacher.age}"></span>, Experience:
-                    <span th:text="${studentClass.teacher.experience}"></span>)
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Students:</strong></td>
-                <td>
-                    <ul>
-                        <li th:each="student : ${studentClass.students}">
-                            <span th:text="${student.name}"></span> (Age:
-                            <span th:text="${student.age}"></span>)
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h2>Assignment Details</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Field</th>
-                <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Title:</strong></td>
-                <td><span th:text="${assignment.title}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Description:</strong></td>
-                <td><span th:text="${assignment.description}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Completed:</strong></td>
-                <td><span th:text="${assignment.isCompleted ? 'Yes' : 'No'}"></span></td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h2>Teacher Details</h2>
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Experience</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Modified:</strong></td>
-                <td><span th:text="${teacherSaved.name}"></span></td>
-                <td><span th:text="${teacherSaved.age}"></span></td>
-                <td><span th:text="${teacherSaved.experience}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Original:</strong></td>
-                <td><span th:text="${teacher.name}"></span></td>
-                <td><span th:text="${teacher.age}"></span></td>
-                <td><span th:text="${teacher.experience}"></span></td>
-            </tr>
-            </tbody>
-        </table>
+
+
 
 
     </div>
@@ -442,59 +312,7 @@
             </tbody>
         </table>
 
-        <h2>Exam Session</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Field</th>
-                <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Exam Session ID:</strong></td>
-                <td><span th:text="${examSession.id}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Exam Session Start Date:</strong></td>
-                <td><span th:text="${examSession.startDate}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Exam Session End Date:</strong></td>
-                <td><span th:text="${examSession.endDate}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Exam Session Description:</strong></td>
-                <td><span th:text="${examSession.description}"></span></td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h2>Exam DTO</h2>
-        <table>
-            <thead>
-            <tr>
-                <th></th>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Score(max)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><strong>Modified:</strong></td>
-                <td><span th:text="${updatedExamDTO.subject}"></span></td>
-                <td><span th:text="${updatedExamDTO.date}"></span></td>
-                <td><span th:text="${updatedExamDTO.maxScore}"></span></td>
-            </tr>
-            <tr>
-                <td><strong>Rolled back:</strong></td>
-                <td><span th:text="${rolledBackExamDTO.subject}"></span></td>
-                <td><span th:text="${rolledBackExamDTO.date}"></span></td>
-                <td><span th:text="${rolledBackExamDTO.maxScore}"></span></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 </div>
 </body>

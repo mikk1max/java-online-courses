@@ -1,6 +1,6 @@
 package com.example.onlinecourses.repository;
 
-import com.example.onlinecourses.model.TeacherDB;
+import com.example.onlinecourses.model.Teacher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,13 +19,13 @@ public class TeacherRepository {
     }
 
     // Metoda do znajdowania wszystkich aktywnych nauczycieli
-    public List<TeacherDB> findAll() {
+    public List<Teacher> findAll() {
         String sql = "SELECT * FROM teacher WHERE is_active = true"; // Zmiana na wybór tylko aktywnych nauczycieli
         return jdbcTemplate.query(sql, this::mapRowToTeacher);
     }
 
     // Metoda do znajdowania nauczyciela według identyfikatora
-    public TeacherDB findById(Long id) {
+    public Teacher findById(Long id) {
         String sql = "SELECT * FROM teacher WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, this::mapRowToTeacher);
@@ -35,7 +35,7 @@ public class TeacherRepository {
     }
 
     // Metoda do zapisywania nowego nauczyciela
-    public TeacherDB save(TeacherDB teacher) {
+    public Teacher save(Teacher teacher) {
         String sql = "INSERT INTO teacher (name, age, experience, hourly_rate, is_active) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, teacher.getName(), teacher.getAge(), teacher.getExperience(), teacher.getHourlyRate(), teacher.getIsActive());
 
@@ -46,7 +46,7 @@ public class TeacherRepository {
     }
 
     // Metoda do aktualizacji danych nauczyciela
-    public int update(Long id, TeacherDB updatedTeacher) {
+    public int update(Long id, Teacher updatedTeacher) {
         String sql = "UPDATE teacher SET name = ?, age = ?, experience = ?, hourly_rate = ? WHERE id = ?";
         return jdbcTemplate.update(sql, updatedTeacher.getName(), updatedTeacher.getAge(), updatedTeacher.getExperience(), updatedTeacher.getHourlyRate(), id);
     }
@@ -64,8 +64,8 @@ public class TeacherRepository {
     }
 
     // Metoda do mapowania wiersza wyniku na obiekt TeacherDB
-    private TeacherDB mapRowToTeacher(ResultSet rs, int rowNum) throws SQLException {
-        return new TeacherDB(rs.getLong("id"), rs.getString("name"), rs.getInt("age"),
+    private Teacher mapRowToTeacher(ResultSet rs, int rowNum) throws SQLException {
+        return new Teacher(rs.getLong("id"), rs.getString("name"), rs.getInt("age"),
                 rs.getInt("experience"), rs.getDouble("hourly_rate"), rs.getBoolean("is_active"));
     }
 }

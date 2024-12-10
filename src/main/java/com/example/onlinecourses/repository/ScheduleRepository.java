@@ -1,6 +1,6 @@
 package com.example.onlinecourses.repository;
 
-import com.example.onlinecourses.model.ScheduleDB;
+import com.example.onlinecourses.model.Schedule;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,13 +17,13 @@ public class ScheduleRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<ScheduleDB> findAll() {
+    public List<Schedule> findAll() {
         String sql = "SELECT * FROM schedule WHERE is_active = true";
         return jdbcTemplate.query(sql, this::mapRowToSchedule);
     }
 
     @SuppressWarnings("deprecation")
-    public ScheduleDB findById(Long id) {
+    public Schedule findById(Long id) {
         String sql = "SELECT * FROM schedule WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[] { id }, this::mapRowToSchedule);
@@ -32,7 +32,7 @@ public class ScheduleRepository {
         }
     }
 
-    public ScheduleDB save(ScheduleDB schedule) {
+    public Schedule save(Schedule schedule) {
         String sql = "INSERT INTO schedule (course_title, start_date, end_date, location, is_active) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, schedule.getCourseTitle(), schedule.getStartDate(), schedule.getEndDate(), schedule.getLocation(), schedule.getIsActive());
 
@@ -41,7 +41,7 @@ public class ScheduleRepository {
                 new Object[] { schedule.getCourseTitle(), schedule.getStartDate(), schedule.getEndDate(), schedule.getLocation(), schedule.getIsActive() }, this::mapRowToSchedule);
     }
 
-    public int update(Long id, ScheduleDB updatedSchedule) {
+    public int update(Long id, Schedule updatedSchedule) {
         String sql = "UPDATE schedule SET course_title = ?, start_date = ?, end_date = ?, location = ? WHERE id = ?";
         return jdbcTemplate.update(sql, updatedSchedule.getCourseTitle(), updatedSchedule.getStartDate(), updatedSchedule.getEndDate(), updatedSchedule.getLocation(), id);
     }
@@ -56,8 +56,8 @@ public class ScheduleRepository {
         return jdbcTemplate.update(sql, id);
     }
 
-    private ScheduleDB mapRowToSchedule(ResultSet rs, int rowNum) throws SQLException {
-        return new ScheduleDB(rs.getLong("id"), rs.getString("course_title"), rs.getString("start_date"),
+    private Schedule mapRowToSchedule(ResultSet rs, int rowNum) throws SQLException {
+        return new Schedule(rs.getLong("id"), rs.getString("course_title"), rs.getString("start_date"),
                 rs.getString("end_date"), rs.getString("location"), rs.getBoolean("is_active"));
     }
 }

@@ -131,68 +131,23 @@ public class HomeController {
 
 
         // !LAB 3 all classes
-        // * Teacher, StudentClass, Assignment
-        Teacher originalTeacher = new Teacher("Jan Kowalski", 40, 15, 50.0, 101);
-        StudentClass studentClass = new StudentClass(students, courses.get(0), originalTeacher);
-
-        Assignment assignment = Assignment.builder()
-                .id(1)
-                .title("Zadanie 1")
-                .description("Utwórz 3 klasy encyjne z wykorzystaniem adnotacji Lombok posiadające publiczne metody dostępowe, pola wymagane, konstruktory argumentow")
-                .assignedBy(originalTeacher)
-                .isCompleted(false)
-                .build();
 
 
-        Teacher teacherCopy = new Teacher(originalTeacher);
-        originalTeacher.setName("Jan Nowak");
-        originalTeacher.setAge(41);
-        Teacher teacherSaved = new Teacher(originalTeacher);
-        teacherCopy.restoreState(originalTeacher);
 
 
-        // * Certificate, Feedback, Schedule
-        Certificate certificate = new Certificate(1, "java", "28/10/2024", 4, "MasterDegree");
-
-        Certificate certificateCopy = new Certificate(certificate);//tworzymy kopie
-        certificate.setCourseTitle("Advanced java");//zmieniamy startowa instancje certyfikatu
-        certificate.setGrade(5);
-        Certificate certificateSave = new Certificate(certificate);//nowa instancja ze zmiana danych
-        certificateCopy.resetStateCertificate(certificate);
-
-        Feedback feedback = Feedback.builder()
-                .CourseTitle("Advanced java")
-                .score(4)
-                .comment("Bardzo dobry kurs")
-                .date("26/10/2024")
-                .build();
 
         Schedule schedule = new Schedule("Advanced java", "15/04/2024", "15/10/2024", "Lecture hall 201");
 
 
-        // * Exam, ExamSession, ExamDTO
+        // * Exam
         Exam exam = new Exam("Java", LocalDate.of(2024, 12, 16));
         exam.setMaxScore(100);
 
-        ExamSession examSession = ExamSession.builder()
-                .id(1L)
-                .startDate(LocalDate.of(2024, 12, 10))
-                .endDate(LocalDate.of(2024, 12, 30))
-                .description("Winter exam session")
-                .build();
 
 
-        ExamDTO examDTO = new ExamDTO(exam);
 
-        examDTO.update("Git", LocalDate.of(2024, 12, 15), 85);
 
-        // Create a new variable to hold the updated values
-        ExamDTO updatedExamDTO = new ExamDTO(examDTO); // Create a copy of the updated ExamDTO
-        model.addAttribute("updatedExamDTO", updatedExamDTO);
 
-        // Rollback to the original values
-        examDTO.rollback();
-        model.addAttribute("rolledBackExamDTO", examDTO);
 
 
         try {
@@ -224,18 +179,13 @@ public class HomeController {
             model.addAttribute("enrollmentsFromXML", enrollmentsFromXML);
 
             // !LAB 3
-            model.addAttribute("teacher", originalTeacher);
-            model.addAttribute("teacherSaved", teacherSaved);
-            model.addAttribute("studentClass", studentClass);
-            model.addAttribute("assignment", assignment);
 
-            model.addAttribute("certificate", certificate);
-            model.addAttribute("certificateSave", certificateSave);
-            model.addAttribute("feedback", feedback);
+
+
+
             model.addAttribute("schedule", schedule);
 
             model.addAttribute("exam", exam);
-            model.addAttribute("examSession", examSession);
             // model attributes for ExamDTO are added above
 
 

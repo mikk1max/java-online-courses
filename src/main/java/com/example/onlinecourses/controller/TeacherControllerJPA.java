@@ -1,5 +1,5 @@
 package com.example.onlinecourses.controller;
-import com.example.onlinecourses.model.TeacherDB;
+import com.example.onlinecourses.model.Teacher;
 import com.example.onlinecourses.service.TeacherServiceJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,22 +13,22 @@ public class TeacherControllerJPA {
     private TeacherServiceJPA teacherService;
 
     @GetMapping
-    public List<TeacherDB> getAllTeachers() {
+    public List<Teacher> getAllTeachers() {
         return teacherService.getAllTeachers();
     }
 
     @GetMapping("/{id}")
-    public TeacherDB getTeacherById(@PathVariable Long id) {
+    public Teacher getTeacherById(@PathVariable Long id) {
         return teacherService.getTeacherById(id);
     }
 
     @PostMapping
-    public TeacherDB createTeacher(@RequestBody TeacherDB teacher) {
+    public Teacher createTeacher(@RequestBody Teacher teacher) {
         return teacherService.saveTeacher(teacher);
     }
 
     @PatchMapping("/{id}")
-    public TeacherDB updateTeacher(@PathVariable Long id, @RequestBody TeacherDB updatedTeacher) {
+    public Teacher updateTeacher(@PathVariable Long id, @RequestBody Teacher updatedTeacher) {
         return teacherService.updateTeacher(id, updatedTeacher);
     }
 
