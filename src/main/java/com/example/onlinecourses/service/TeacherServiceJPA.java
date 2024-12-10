@@ -1,6 +1,6 @@
 package com.example.onlinecourses.service;
 
-import com.example.onlinecourses.model.TeacherDB;
+import com.example.onlinecourses.model.Teacher;
 import com.example.onlinecourses.repository.TeacherRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,19 +12,19 @@ public class TeacherServiceJPA {
     @Autowired
     private TeacherRepositoryJPA teacherRepository;
 
-    public List<TeacherDB> getAllTeachers() {
+    public List<Teacher> getAllTeachers() {
         return teacherRepository.findAllByIsActiveTrue();
     }
 
-    public TeacherDB getTeacherById(Long id) {
+    public Teacher getTeacherById(Long id) {
         return teacherRepository.findById(id).orElse(null);
     }
 
-    public TeacherDB saveTeacher(TeacherDB teacher) {
+    public Teacher saveTeacher(Teacher teacher) {
         return teacherRepository.save(teacher);
     }
 
-    public TeacherDB updateTeacher(Long id, TeacherDB updatedTeacher) {
+    public Teacher updateTeacher(Long id, Teacher updatedTeacher) {
         return teacherRepository.findById(id).map(existingTeacher -> {
 
                 existingTeacher.setName(updatedTeacher.getName());

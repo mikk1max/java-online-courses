@@ -1,8 +1,6 @@
 package com.example.onlinecourses.service;
 
-import com.example.onlinecourses.model.Exam;
-import com.example.onlinecourses.model.ScheduleDB;
-import com.example.onlinecourses.repository.ExamRepositoryJPA;
+import com.example.onlinecourses.model.Schedule;
 import com.example.onlinecourses.repository.ScheduleRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,19 +12,19 @@ public class ScheduleServiceJPA {
     @Autowired
     private ScheduleRepositoryJPA scheduleRepositoryJPA;
 
-    public List<ScheduleDB> getAllSchedules() {
+    public List<Schedule> getAllSchedules() {
         return scheduleRepositoryJPA.findAllByIsActiveTrue();
     }
 
-    public ScheduleDB getScheduleById(Long id) {
+    public Schedule getScheduleById(Long id) {
         return scheduleRepositoryJPA.findById(id).orElse(null);
     }
 
-    public ScheduleDB saveSchedule(ScheduleDB schedule) {
+    public Schedule saveSchedule(Schedule schedule) {
         return scheduleRepositoryJPA.save(schedule);
     }
 
-    public ScheduleDB updateSchedule(Long id, ScheduleDB updatedSchedule) {
+    public Schedule updateSchedule(Long id, Schedule updatedSchedule) {
         return scheduleRepositoryJPA.findById(id).map(existingSchedule -> {
             existingSchedule.setCourseTitle(updatedSchedule.getCourseTitle());
             existingSchedule.setStartDate(updatedSchedule.getStartDate());

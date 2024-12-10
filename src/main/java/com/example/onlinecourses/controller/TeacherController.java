@@ -1,6 +1,6 @@
 package com.example.onlinecourses.controller;
 
-import com.example.onlinecourses.model.TeacherDB;
+import com.example.onlinecourses.model.Teacher;
 import com.example.onlinecourses.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class TeacherController {
     }
 
     @GetMapping
-    public List<TeacherDB> getAllTeachers() {
+    public List<Teacher> getAllTeachers() {
         return teacherRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TeacherDB> getTeacherById(@PathVariable Long id) {
-        TeacherDB teacher = teacherRepository.findById(id);
+    public ResponseEntity<Teacher> getTeacherById(@PathVariable Long id) {
+        Teacher teacher = teacherRepository.findById(id);
         if (teacher != null) {
             return ResponseEntity.ok(teacher);
         } else {
@@ -35,13 +35,13 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<TeacherDB> createTeacher(@RequestBody TeacherDB teacher) {
-        TeacherDB savedTeacher = teacherRepository.save(teacher);
+    public ResponseEntity<Teacher> createTeacher(@RequestBody Teacher teacher) {
+        Teacher savedTeacher = teacherRepository.save(teacher);
         return ResponseEntity.ok(savedTeacher);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TeacherDB> updateTeacher(@PathVariable Long id, @RequestBody TeacherDB updatedTeacher) {
+    public ResponseEntity<Teacher> updateTeacher(@PathVariable Long id, @RequestBody Teacher updatedTeacher) {
         int rowsAffected = teacherRepository.update(id, updatedTeacher);
         if (rowsAffected > 0) {
             return ResponseEntity.ok(updatedTeacher);

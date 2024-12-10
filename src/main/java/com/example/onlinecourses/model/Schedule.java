@@ -1,20 +1,26 @@
 package com.example.onlinecourses.model;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
-import java.time.Instant;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Table(name = "schedule")
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
-@Accessors(fluent = true)
-@Getter
 public class Schedule {
-    private final @NonNull String courseTitle;
-    private final @NonNull String startDate;
-    private final @NonNull String endDate;
-    private final @NonNull String location;
-
-    public Schedule toEntity() {
-        return new Schedule(courseTitle, startDate, endDate, location);
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NonNull
+    private String courseTitle;
+    @NonNull
+    private String startDate;
+    @NonNull
+    private String endDate;
+    @NonNull
+    private String location;
+    @NonNull
+    private Boolean isActive = true;
 }

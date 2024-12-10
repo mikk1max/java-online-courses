@@ -1,8 +1,6 @@
 package com.example.onlinecourses.service;
 
-import com.example.onlinecourses.model.Exam;
-import com.example.onlinecourses.model.ScheduleDB;
-import com.example.onlinecourses.repository.ExamRepository;
+import com.example.onlinecourses.model.Schedule;
 import com.example.onlinecourses.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +12,20 @@ public class ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    public List<ScheduleDB> getAllSchedules() {
+    public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
 
-    public ScheduleDB getScheduleById(Long id) {
+    public Schedule getScheduleById(Long id) {
         return scheduleRepository.findById(id);
     }
 
-    public ScheduleDB saveSchedule(ScheduleDB schedule) {
+    public Schedule saveSchedule(Schedule schedule) {
         return scheduleRepository.save(schedule);
     }
 
-    public ScheduleDB updateSchedule(Long id, ScheduleDB updatedSchedule) {
-        ScheduleDB existingSchedule = scheduleRepository.findById(id);
+    public Schedule updateSchedule(Long id, Schedule updatedSchedule) {
+        Schedule existingSchedule = scheduleRepository.findById(id);
         if (existingSchedule == null) {
             throw new RuntimeException("Schedule not found");
         }

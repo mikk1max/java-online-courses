@@ -1,6 +1,6 @@
 package com.example.onlinecourses;
 
-import com.example.onlinecourses.model.TeacherDB;
+import com.example.onlinecourses.model.Teacher;
 import com.example.onlinecourses.repository.TeacherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,13 +33,13 @@ class TeacherRepositoryTest {
     @Test
     void findAll_ShouldReturnListOfActiveTeachers() {
         // Arrange
-        TeacherDB teacher1 = new TeacherDB(1L, "John Doe", 30, 5, 50.0, true);
-        TeacherDB teacher2 = new TeacherDB(2L, "Jane Smith", 45, 20, 75.0, true);
+        Teacher teacher1 = new Teacher(1L, "John Doe", 30, 5, 50.0, true);
+        Teacher teacher2 = new Teacher(2L, "Jane Smith", 45, 20, 75.0, true);
         when(jdbcTemplate.query(anyString(), any(RowMapper.class)))
                 .thenReturn(List.of(teacher1, teacher2));
 
         // Act
-        List<TeacherDB> teachers = teacherRepository.findAll();
+        List<Teacher> teachers = teacherRepository.findAll();
 
         // Assert
         assertNotNull(teachers);
@@ -50,7 +50,7 @@ class TeacherRepositoryTest {
     @Test
     void findById_ShouldReturnTeacher_WhenTeacherExists() {
         // Arrange
-        TeacherDB teacher = new TeacherDB(1L, "John Doe", 30, 5, 50.0, true);
+        Teacher teacher = new Teacher(1L, "John Doe", 30, 5, 50.0, true);
         when(jdbcTemplate.queryForObject(
                 anyString(),
                 any(Object[].class),
@@ -58,7 +58,7 @@ class TeacherRepositoryTest {
         )).thenReturn(teacher);
 
         // Act
-        TeacherDB result = teacherRepository.findById(1L);
+        Teacher result = teacherRepository.findById(1L);
 
         // Assert
         assertNotNull(result);
@@ -73,7 +73,7 @@ class TeacherRepositoryTest {
                 .thenThrow(new org.springframework.dao.EmptyResultDataAccessException(1));
 
         // Act
-        TeacherDB result = teacherRepository.findById(99L);
+        Teacher result = teacherRepository.findById(99L);
 
         // Assert
         assertNull(result);
@@ -82,14 +82,14 @@ class TeacherRepositoryTest {
     @Test
     void save_ShouldInsertAndReturnSavedTeacher() {
         // Arrange
-        TeacherDB teacher = new TeacherDB(null, "John Doe", 30, 5, 50.0, true);
-        TeacherDB savedTeacher = new TeacherDB(1L, "John Doe", 30, 5, 50.0, true);
+        Teacher teacher = new Teacher(null, "John Doe", 30, 5, 50.0, true);
+        Teacher savedTeacher = new Teacher(1L, "John Doe", 30, 5, 50.0, true);
         when(jdbcTemplate.update(anyString(), any(), any(), any(), any(), any())).thenReturn(1);
         when(jdbcTemplate.queryForObject(anyString(), any(Object[].class), any(RowMapper.class)))
                 .thenReturn(savedTeacher);
 
         // Act
-        TeacherDB result = teacherRepository.save(teacher);
+        Teacher result = teacherRepository.save(teacher);
 
         // Assert
         assertNotNull(result);
@@ -100,7 +100,7 @@ class TeacherRepositoryTest {
     @Test
     void save_ShouldThrowException_WhenInsertFails() {
         // Arrange
-        TeacherDB teacher = new TeacherDB(null, "John Doe", 30, 5, 50.0, true);
+        Teacher teacher = new Teacher(null, "John Doe", 30, 5, 50.0, true);
         when(jdbcTemplate.update(anyString(), any(), any(), any(), any(), any())).thenThrow(new RuntimeException("Insert failed"));
 
         // Act & Assert
