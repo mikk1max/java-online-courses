@@ -80,6 +80,21 @@
         .success {
             color: green;
         }
+
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +116,7 @@
     <p th:if="${param.error}" class="error">Invalid username or password</p>
     <p th:if="${param.success}" class="success">Registration successful, please log in</p>
     <p th:if="${param.logout}" class="success">You have been logged out successfully.</p>
+    <p class="signup-link">Don't have an account? <a th:href="@{/register}">Sign up here</a></p>
 </div>
 </body>
 </html>

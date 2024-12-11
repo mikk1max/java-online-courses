@@ -41,7 +41,7 @@ public class TeacherHomeController {
         studentService.saveStudentsToXML(students);
 
         //filter students
-        filtered_students = studentService.filterStudents(students, keyword);
+        filtered_students = keyword.isEmpty() ? students : studentService.filterStudents(students, keyword);
 
         //Enrollments
         enrollmentInfo = enrollmentService.getEnrollmentsInfo(enrollmentService.getAllEnrollments());
@@ -54,7 +54,7 @@ public class TeacherHomeController {
             model.addAttribute("filtered_students", filtered_students);
             model.addAttribute("enrollmentInfo", enrollmentInfo);
             model.addAttribute("exams", exams);
-
+            model.addAttribute(("keyword"), keyword);
         } catch (Exception e) {
             e.printStackTrace();
         }

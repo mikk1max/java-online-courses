@@ -1,8 +1,8 @@
 package com.example.onlinecourses.service;
 
-import com.example.onlinecourses.model.Course;
 import com.example.onlinecourses.model.Student;
 import com.example.onlinecourses.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,22 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.xml.stream.*;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class StudentService {
 
     private static final String STUDENT_FILE_PATH = "./src/main/resources/data/students.txt";
     private static final String STUDENT_FILE_XML_PATH = "./src/main/resources/data/students.xml";
+
+    @Autowired
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -98,12 +95,41 @@ public class StudentService {
     }
 
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        return studentRepository.findAllByIsActiveTrue();
     }
 
     public List<Student> filterStudents(List<Student> students, String keyword) {
         List<Student> filtered_students = students.stream()
-                .filter(student -> student.getName().contains(keyword)).toList();
+                .filter(student -> student.getName().toLowerCase().contains(keyword.toLowerCase())).toList();
         return filtered_students;
+    }
+
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    public Student saveStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
+    public Student updateStudent(Long id, Student updatedStudent) {
+        return studentRepository.findById(id).map(existingStudent -> {
+
+            existingStudent.setName(updatedStudent.getName());
+            existingStudent.setAge(updatedStudent.getAge());
+            existingStudent.setIsActive(updatedStudent.getIsActive());
+            return studentRepository.save(existingStudent);
+        }).orElseThrow(() -> new RuntimeException("Student not found"));
+    }
+
+    public void deactivateStudent(Long id) {
+        studentRepository.findById(id).ifPresent(student -> {
+            student.setIsActive(false);
+            studentRepository.save(student);
+        });
+    }
+
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
     }
 }

@@ -22,6 +22,8 @@ public class Student {
     private String name;
     @NonNull
     private int age;
+    @NonNull
+    private Boolean isActive = true;
 
     @ManyToMany
     @JoinTable(

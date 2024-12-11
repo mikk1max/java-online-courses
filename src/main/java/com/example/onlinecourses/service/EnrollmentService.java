@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class EnrollmentService {
     @Autowired
     private StudentRepository studentRepository;
-
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
@@ -46,6 +45,32 @@ public class EnrollmentService {
                 .collect(Collectors.toList());
 
         return enrollmentLines;
+    }
+
+
+
+    public Enrollment getEnrollmentById(Long id) {
+        return enrollmentRepository.findById(id).orElse(null);
+    }
+
+    public Enrollment saveEnrollment(Enrollment enrollment) {
+        return enrollmentRepository.save(enrollment);
+    }
+
+    public Enrollment updateEnrollment(Long id, Enrollment updatedEnrollment) {
+        return enrollmentRepository.findById(id).map(existingEnrollment -> {
+            if (updatedEnrollment.getStudentId() != null) {
+                existingEnrollment.setStudentId(updatedEnrollment.getStudentId());
+            }
+            if (updatedEnrollment.getCourseId() != null) {
+                existingEnrollment.setCourseId(updatedEnrollment.getCourseId());
+            }
+            return enrollmentRepository.save(existingEnrollment);
+        }).orElseThrow(() -> new RuntimeException("Enrollment not found"));
+    }
+
+    public void deleteEnrollment(Long id) {
+        enrollmentRepository.deleteById(id);
     }
 
 }

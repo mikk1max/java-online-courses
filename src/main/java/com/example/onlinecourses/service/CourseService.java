@@ -3,6 +3,7 @@ package com.example.onlinecourses.service;
 import com.example.onlinecourses.model.Course;
 import com.example.onlinecourses.model.User;
 import com.example.onlinecourses.repository.CourseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ public class CourseService {
 
     private static final String COURSES_FILE_PATH = "./src/main/resources/data/courses.txt";
     private static final String XML_COURSES_FILE_PATH = "./src/main/resources/data/courses.xml";
+    @Autowired
     private final CourseRepository courseRepository;
 
     public CourseService(CourseRepository courseRepository) {
@@ -102,12 +104,50 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+        return courseRepository.findAllByIsActiveTrue();
     }
 
     public List<Course> filterCourses(List<Course> courses, String keyword) {
         List<Course> filtered_courses = courses.stream()
-                .filter(course -> course.getTitle().contains(keyword)).toList();
+                .filter(course -> course.getTitle().toLowerCase().contains(keyword.toLowerCase())).toList();
         return filtered_courses;
+    }
+
+
+    public Course getCourseById(Long id) {
+        return courseRepository.findById(id).orElse(null);
+    }
+
+    public Course saveCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    public Course updateCourse(Long id, Course updatedCourse) {
+        return courseRepository.findById(id).map(existingCourse -> {
+            if (updatedCourse.getTitle() != null) {
+                existingCourse.setTitle(updatedCourse.getTitle());
+            }
+            if (updatedCourse.getDescription() != null) {
+                existingCourse.setDescription(updatedCourse.getDescription());
+            }
+            if (updatedCourse.getDuration() != 0) {
+                existingCourse.setDuration(updatedCourse.getDuration());
+            }
+            if (updatedCourse.getIsActive() != null) {
+                existingCourse.setIsActive(updatedCourse.getIsActive());
+            }
+            return courseRepository.save(existingCourse);
+        }).orElseThrow(() -> new RuntimeException("Course not found"));
+    }
+
+    public void deactivateCourse(Long id) {
+        courseRepository.findById(id).ifPresent(course -> {
+            course.setIsActive(false);
+            courseRepository.save(course);
+        });
+    }
+
+    public void deleteCourse(Long id) {
+        courseRepository.deleteById(id);
     }
 }

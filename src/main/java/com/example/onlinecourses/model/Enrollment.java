@@ -16,7 +16,6 @@ public class Enrollment {
     @NonNull
     @Column(name = "student_id")
     private Long studentId;
-
     @NonNull
     @Column(name = "course_id")
     private Long courseId;

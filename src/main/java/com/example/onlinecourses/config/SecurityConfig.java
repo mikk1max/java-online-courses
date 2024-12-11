@@ -14,13 +14,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/").permitAll() // Strony publiczne
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
-                        .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
-                        .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
-                        .requestMatchers("/student/home").hasRole("USER")
-                        .requestMatchers("/teacher/home").hasRole("TEACHER")
-                        .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
+                        .requestMatchers("/register", "/login", "/").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasRole("STUDENT")
+//                        .requestMatchers("/index").hasRole("USER")
+//                        .requestMatchers("/student/home").hasRole("USER")
+//                        .requestMatchers("/teacher/home").hasRole("TEACHER")
+                        .anyRequest().authenticated())
 
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -47,7 +48,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessUrl("/login")
-                        .deleteCookies("JSESSIONID") // Add this line
+                        .deleteCookies("JSESSIONID")
                         .permitAll())
 
                 .exceptionHandling(handling -> handling

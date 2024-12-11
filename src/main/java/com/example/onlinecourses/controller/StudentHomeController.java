@@ -43,7 +43,7 @@ public class StudentHomeController {
         courses = courseService.getAllCourses();
 
         //Keyword filter
-        filtered_courses = courseService.filterCourses(courses, keyword);
+        filtered_courses = keyword.isEmpty() ? courses : courseService.filterCourses(courses, keyword);
 
         // Write to file
         courseService.writeCoursesToFile(courses); // Write to file JavaNIO
@@ -64,7 +64,7 @@ public class StudentHomeController {
             model.addAttribute("teachers", teachers);
             model.addAttribute("schedules", schedules);
             model.addAttribute("exams", exams);
-
+            model.addAttribute(("keyword"), keyword);
         } catch (Exception e) {
             e.printStackTrace();
         }

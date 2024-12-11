@@ -23,6 +23,8 @@ public class Course {
     private String description;
     @NonNull
     private int duration;
+    @NonNull
+    private Boolean isActive = true;
 
     @ManyToMany(mappedBy = "courses")
     private Set<Student> students = new HashSet<>();
