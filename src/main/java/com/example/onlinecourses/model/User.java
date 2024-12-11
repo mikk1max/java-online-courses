@@ -2,6 +2,7 @@ package com.example.onlinecourses.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Setter
@@ -9,18 +10,16 @@ import lombok.Setter;
 @Table(name = "users")
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true)
+    @NonNull
+    @Column(unique = true)
     private String username;
-
-    @Column(nullable = false)
+    @NonNull
     private String password;
-
-    @Column(nullable = false)
+    @NonNull
     private String role;
-
+    @NonNull
+    private Boolean isActive = true;
 }

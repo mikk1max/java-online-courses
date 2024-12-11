@@ -100,6 +100,7 @@
         <th>ID</th>
         <th>Username</th>
         <th>Role</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
@@ -107,6 +108,7 @@
         <td th:text="${user.id}">ID</td>
         <td th:text="${user.username}">Username</td>
         <td th:text="${user.role}">Role</td>
+        <td th:text="${user.isActive ? 'Active' : 'Deactivated'}">isActive</td>
     </tr>
     </tbody>
 </table>

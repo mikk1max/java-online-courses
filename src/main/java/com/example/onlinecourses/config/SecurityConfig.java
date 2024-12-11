@@ -14,11 +14,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/").permitAll() // Strony publiczne
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
-                        .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
-                        .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
-                        .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
+                        .requestMatchers("/register", "/login", "/").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasRole("STUDENT")
+//                        .requestMatchers("/index").hasRole("USER")
+//                        .requestMatchers("/student/home").hasRole("USER")
+//                        .requestMatchers("/teacher/home").hasRole("TEACHER")
+                        .anyRequest().authenticated())
 
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -27,11 +30,15 @@ public class SecurityConfig {
                             // Przekierowanie po zalogowaniu na odpowiednią stronę
                             boolean isAdmin = authentication.getAuthorities().stream()
                                     .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+                            boolean isTeacher = authentication.getAuthorities().stream()
+                                    .anyMatch(role -> role.getAuthority().equals("ROLE_TEACHER"));
 
                             if (isAdmin) {
                                 response.sendRedirect("/admin");
-                            } else {
-                                response.sendRedirect("/index");
+                            } else if(isTeacher) {
+                                response.sendRedirect("/teacher/home");
+                            }else{
+                                response.sendRedirect("/student/home");
                             }
                         })
                         .failureUrl("/login?error=true")
@@ -41,7 +48,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessUrl("/login")
-                        .deleteCookies("JSESSIONID") // Add this line
+                        .deleteCookies("JSESSIONID")
                         .permitAll())
 
                 .exceptionHandling(handling -> handling
