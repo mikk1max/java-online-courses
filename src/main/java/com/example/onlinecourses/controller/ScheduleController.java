@@ -1,6 +1,4 @@
 package com.example.onlinecourses.controller;
-
-
 import com.example.onlinecourses.model.Schedule;
 import com.example.onlinecourses.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedules")
+@RequestMapping("/admin/schedules")
 public class ScheduleController {
-    @Autowired
-    private ScheduleService scheduleService;
+
+    private final ScheduleService scheduleService;
+
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
+    }
 
     @GetMapping
     public List<Schedule> getAllSchedules() {

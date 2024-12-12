@@ -1,35 +1,22 @@
 package com.example.onlinecourses.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Enrollment {
-    private Student student;
-    private Course course;
-
-    public Enrollment(Student student, Course course) {
-        this.student = student;
-        this.course = course;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    @Override
-    public String toString() {
-        return "Enrollment{" +
-            "student=" + student +
-            ", course=" + course +
-            '}';
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NonNull
+    @Column(name = "student_id")
+    private Long studentId;
+    @NonNull
+    @Column(name = "course_id")
+    private Long courseId;
 }
+

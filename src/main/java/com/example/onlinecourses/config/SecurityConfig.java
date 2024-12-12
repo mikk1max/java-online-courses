@@ -3,36 +3,42 @@ package com.example.onlinecourses.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+    private String determineRedirectUrl(Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"))) {
+            return "/admin";
+        } else if (authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_TEACHER"))) {
+            return "/teacher/home";
+        } else {
+            return "/student/home";
+        }
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/").permitAll() // Strony publiczne
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Dostęp dla administratorów
-                        .requestMatchers("/user/**").hasRole("USER") // Dostęp dla użytkowników
-                        .requestMatchers("/index").hasRole("USER") // Dostęp do /index tylko dla zalogowanych użytkowników
-                        .anyRequest().authenticated()) // Wszystkie inne strony wymagają logowania
-
+                        .requestMatchers("/register", "/login", "/").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasRole("STUDENT"))
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .successHandler((request, response, authentication) -> {
-                            // Przekierowanie po zalogowaniu na odpowiednią stronę
-                            boolean isAdmin = authentication.getAuthorities().stream()
-                                    .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
-
-                            if (isAdmin) {
-                                response.sendRedirect("/admin");
-                            } else {
-                                response.sendRedirect("/index");
-                            }
+                            String redirectUrl = determineRedirectUrl(authentication);
+                            response.sendRedirect(redirectUrl);
                         })
                         .failureUrl("/login?error=true")
                         .permitAll())
@@ -41,12 +47,10 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessUrl("/login")
-                        .deleteCookies("JSESSIONID") // Add this line
+                        .deleteCookies("JSESSIONID")
                         .permitAll())
-
                 .exceptionHandling(handling -> handling
                         .accessDeniedPage("/login"));
-
         return http.build();
     }
 
