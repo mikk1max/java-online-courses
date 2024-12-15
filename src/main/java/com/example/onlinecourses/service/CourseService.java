@@ -49,6 +49,7 @@ public class CourseService implements FileWriterService<Course>, FileDownloadabl
             e.printStackTrace();
         }
     }
+
     @Override
     public void saveToXML(List<Course> courses) {
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
