@@ -1,9 +1,7 @@
 package com.example.onlinecourses.controller;
-
 import com.example.onlinecourses.model.Teacher;
 import com.example.onlinecourses.service.TeacherService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

@@ -3,7 +3,6 @@ package com.example.onlinecourses.controller;
 import com.example.onlinecourses.model.User;
 import com.example.onlinecourses.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

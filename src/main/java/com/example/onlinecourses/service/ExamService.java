@@ -31,7 +31,7 @@ public class ExamService {
         return examRepository.findById(id).map(existingExam -> {
             existingExam.setSubject(updatedExam.getSubject());
             existingExam.setDate(updatedExam.getDate());
-            if (updatedExam.getMaxScore() != null && updatedExam.getMaxScore() > 0) {
+            if (updatedExam.getMaxScore() != null &&  updatedExam.getMaxScore() > 0) {
                 existingExam.setMaxScore(updatedExam.getMaxScore());
             }
             return examRepository.save(existingExam);
